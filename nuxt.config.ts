@@ -27,6 +27,10 @@ const config: NuxtConfig = {
     { src: '~plugins/NlyAdminlteVue', mode: 'all' }
   ],
 
+  router: {
+    base: process.env.APP_ROUTER_BASE ?? '/'
+  },
+
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
