@@ -50,11 +50,11 @@ jobs:
       - name: Generate
         run: yarn generate
         env:
-          APP_ROUTER_BASE: '/app/'
+          APP_ROUTER_BASE: '/Killer_Bar.pages/'
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: AmemachiF/Killer_Bar.pages
           publish_dir: ./dist
