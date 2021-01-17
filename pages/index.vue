@@ -5,17 +5,15 @@
         <b-card header="档案">
           <b-card-text>
             <b-row>
-              <b-col>
+              <b-col cols="5" class="m-0">
                 <b-img-lazy src="https://via.placeholder.com/479x1144" fluid />
               </b-col>
-              <b-col>
+              <b-col id="bossInfo" class="m-0">
                 <b-row v-for="bk in bossKeys" :key="bk.id">
-                  <b-col class="text-right">
+                  <b-col class="text-right boss-key" cols="4">
                     {{ bk.title }}
                   </b-col>
-                  <b-col>
-                    {{ getProperty(bk.id, boss, '') }}
-                  </b-col>
+                  <b-col v-html="getProperty(bk.key, boss, 'Unknown')" />
                 </b-row>
               </b-col>
             </b-row>
@@ -39,13 +37,18 @@ export default Vue.extend({
   data () {
     return {
       bossKeys: [
-        { key: 'id', title: 'Title' }
+        { key: 'name', title: '姓名' },
+        { key: 'nickname', title: '昵称' },
+        { key: 'signature', title: '签名' },
+        { key: 'age', title: '年龄' },
+        { key: 'birthday', title: '生日' },
+        { key: 'constellation', title: '星座' },
+        { key: 'hair', title: '发色' },
+        { key: 'pupil', title: '瞳色' },
+        { key: 'association', title: '所属社团' }
       ],
       boss: {}
     }
-  },
-  computed: {
-
   },
   created () {
     this.fetchBoss()
@@ -69,4 +72,16 @@ export default Vue.extend({
 </script>
 
 <style scoped>
+#bossInfo {
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+#bossInfo .row {
+  margin: 0.7rem auto;
+}
+
+#bossInfo .boss-key {
+  font-weight: bold;
+}
 </style>
