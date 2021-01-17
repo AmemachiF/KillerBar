@@ -1,75 +1,72 @@
 <template>
-  <div class="container">
-    <div>
-      <Logo />
-      <h1 class="title">
-        killer_bar
-      </h1>
-      <div class="links">
-        <a
-          href="https://nuxtjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--green"
-        >
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </div>
+  <b-container fluid>
+    <b-row>
+      <b-col>
+        <b-card header="档案">
+          <b-card-text>
+            <b-row>
+              <b-col>
+                <b-img-lazy src="https://via.placeholder.com/479x1144" fluid />
+              </b-col>
+              <b-col>
+                <b-row v-for="bk in bossKeys" :key="bk.id">
+                  <b-col class="text-right">
+                    {{ bk.title }}
+                  </b-col>
+                  <b-col>
+                    {{ getProperty(bk.id, boss, '') }}
+                  </b-col>
+                </b-row>
+              </b-col>
+            </b-row>
+          </b-card-text>
+        </b-card>
+      </b-col>
+      <b-col>
+        <b-card header="公告">
+          <b-card-text>
+            Some text.
+          </b-card-text>
+        </b-card>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script lang="ts">
 import Vue from 'vue'
+export default Vue.extend({
+  data () {
+    return {
+      bossKeys: [
+        { key: 'id', title: 'Title' }
+      ],
+      boss: {}
+    }
+  },
+  computed: {
 
-export default Vue.extend({})
+  },
+  created () {
+    this.fetchBoss()
+  },
+  methods: {
+    fetchBoss () {
+      this.$axios.get('https://api.amemachif.com:2333/boss')
+        .then((res) => {
+          this.boss = res.data.data
+          // console.log(this.boss)
+        })
+        .catch((_) => {
+          this.boss = {}
+        })
+    },
+    getProperty (key: string, value: any, defaults: any): any {
+      return key in value ? value[key] : defaults
+    }
+  }
+})
 </script>
 
-<style>
-.container {
-  margin: 0 auto;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-
-.title {
-  font-family:
-    'Quicksand',
-    'Source Sans Pro',
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    'Helvetica Neue',
-    Arial,
-    sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
-}
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
-}
+<style scoped>
 </style>
