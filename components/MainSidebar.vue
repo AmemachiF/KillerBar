@@ -1,8 +1,9 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation>
     <nly-sidebar-brand to="/">
-      <b-img
-        src="https://via.placeholder.com/150"
+      <!-- TODO: Image -->
+      <b-img-lazy
+        src="http://amemachif.com/static/img/logo.b66abb45.png"
         class="brand-image img-circle elevation-3"
       />
       <nly-sidebar-brandtext weight>

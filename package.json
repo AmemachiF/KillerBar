@@ -19,6 +19,7 @@
     "bootstrap": "^4.5.2",
     "bootstrap-vue": "^2.17.3",
     "core-js": "^3.6.5",
+    "echarts": "^5.0.1",
     "nly-adminlte-vue": "^0.7.9",
     "nuxt": "^2.14.6"
   },

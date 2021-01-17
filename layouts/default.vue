@@ -3,7 +3,13 @@
     <Header />
     <MainSidebar />
     <nly-content-wrapper>
-      <nly-content-header />
+      <nly-content-header>
+        <b-container fluid class="text-center">
+          <fa icon="wrench" class="wrench" />
+          施工中
+          <fa icon="tools" />
+        </b-container>
+      </nly-content-header>
       <nly-content>
         <Nuxt />
       </nly-content>
@@ -26,7 +32,25 @@ export default Vue.extend({
 </script>
 
 <style scope>
-  .wrapper {
-    opacity: 0.85;
+.wrapper {
+  opacity: 0.85;
+}
+
+.wrench {
+  animation: wrench 1s infinite;
+}
+
+@keyframes wrench {
+  0% {
+    transform:rotate(0deg);
   }
+
+  50% {
+    transform:rotate(90deg) translateY(-4px) translateX(-6px);
+  }
+
+  100% {
+    transform:rotate(0deg);
+  }
+}
 </style>
