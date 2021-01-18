@@ -2,10 +2,10 @@ name: ci
 
 on:
   push:
-    branches-ignore:
+    branches:
       - master
   pull_request:
-    branches-ignore:
+    branches:
       - master
 
 jobs:
@@ -44,3 +44,15 @@ jobs:
 
       - name: Run linter 👀
         run: yarn lint
+
+      - name: Generate
+        run: yarn generate
+        env:
+          APP_ROUTER_BASE: '/Killer_Bar.pages/'
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          external_repository: AmemachiF/Killer_Bar.pages
+          publish_dir: ./dist
