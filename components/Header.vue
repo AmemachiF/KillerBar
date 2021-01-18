@@ -29,7 +29,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scope>
+<style lang="stylus" scope>
 ol.breadcrumb {
   background-color: transparent;
 }

@@ -4,6 +4,8 @@ const config: NuxtConfig = {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
 
+  // modern: 'client',
+
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
     title: 'killer_bar',
@@ -24,7 +26,7 @@ const config: NuxtConfig = {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     { src: '~plugins/FontAwesome', mode: 'all' },
-    { src: '~plugins/NlyAdminlteVue', ssr: false }
+    { src: '~plugins/NlyAdminlteVue.js', mode: 'all' }
   ],
 
   router: {

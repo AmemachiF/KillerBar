@@ -26,7 +26,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scope>
+<style lang="stylus" scope>
 .wrapper {
   opacity: 0.85;
 }

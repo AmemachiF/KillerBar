@@ -182,7 +182,7 @@ export default Vue.extend({
 })
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
 #bossInfo {
   font-size: 0.9rem;
   padding: 0;

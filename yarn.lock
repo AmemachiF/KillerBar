@@ -846,6 +846,20 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
+"@changfeng/nly-adminlte-vue@^0.7.9-fix.6":
+  version "0.7.9-fix.6"
+  resolved "https://registry.yarnpkg.com/@changfeng/nly-adminlte-vue/-/nly-adminlte-vue-0.7.9-fix.6.tgz#2f5c92f9787fdae93f50dffc14fab3362703d507"
+  integrity sha512-/UfYbwbzSnBA709K5u4g+xVNDoC6bQ7rWhO431942FU8PHJWHuzXTaCl/Y1UhLV4FevYMGkGaACHn5xnpm5szw==
+  dependencies:
+    "@popperjs/core" "^2.5.3"
+    core-js "^3.6.5"
+    lodash.clonedeep "^4.5.0"
+    overlayscrollbars "^1.13.0"
+    overlayscrollbars-vue "^0.2.2"
+    popper.js "^1.16.1"
+    portal-vue "^2.1.7"
+    vue-functional-data-merge "^3.1.0"
+
 "@csstools/convert-colors@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@csstools/convert-colors/-/convert-colors-1.4.0.tgz#ad495dc41b12e75d588c6db8b9834f08fa131eb7"
@@ -6963,20 +6977,6 @@ next-tick@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/next-tick/-/next-tick-1.0.0.tgz#ca86d1fe8828169b0120208e3dc8424b9db8342c"
   integrity sha1-yobR/ogoFpsBICCOPchCS524NCw=
-
-nly-adminlte-vue@^0.7.9:
-  version "0.7.9"
-  resolved "https://registry.yarnpkg.com/nly-adminlte-vue/-/nly-adminlte-vue-0.7.9.tgz#360f2c39fc618460eb922e7f8e0d622042c1b137"
-  integrity sha512-TIV80nAbJOTQZe04x3p0cAS544AaxM0AIdDBYOYe2N3RT7kEiFQ4OzNQKtq2hty2eSN/0Ehw/1OJFE2/OCbJ5g==
-  dependencies:
-    "@popperjs/core" "^2.5.3"
-    core-js "^3.6.5"
-    lodash.clonedeep "^4.5.0"
-    overlayscrollbars "^1.13.0"
-    overlayscrollbars-vue "^0.2.2"
-    popper.js "^1.16.1"
-    portal-vue "^2.1.7"
-    vue-functional-data-merge "^3.1.0"
 
 no-case@^2.2.0:
   version "2.3.2"

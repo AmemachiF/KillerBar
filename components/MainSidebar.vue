@@ -1,7 +1,7 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation side-mini>
     <nly-sidebar-brand to="/">
-      <!-- TODO: Image -->
+      <!-- TODO: Image src -->
       <b-img-lazy
         src="http://amemachif.com/static/img/logo.b66abb45.png"
         class="brand-image img-circle elevation-3"
@@ -40,9 +40,9 @@ import Vue from 'vue'
 export default Vue.extend({})
 </script>
 
-<style scope>
-aside.main-sidebar {
-  background-color: #304156;
+<style lang="stylus" scoped>
+.main-sidebar {
+  background-color: #304156 !important;
 }
 
 .main-sidebar .nav-sidebar .nav-item a {
