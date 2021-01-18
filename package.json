@@ -21,7 +21,9 @@
     "core-js": "^3.6.5",
     "echarts": "^5.0.1",
     "nly-adminlte-vue": "^0.7.9",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "stylus": "^0.54.8",
+    "stylus-loader": "^4.3.3"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.2",
@@ -33,6 +35,7 @@
     "@nuxtjs/eslint-config-typescript": "^3.0.0",
     "@nuxtjs/eslint-module": "^2.0.0",
     "@nuxtjs/fontawesome": "^1.1.2",
+    "@nuxtjs/style-resources": "^1.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.10.0",
     "eslint-plugin-nuxt": "^1.0.0"

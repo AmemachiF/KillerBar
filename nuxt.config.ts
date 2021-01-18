@@ -45,7 +45,8 @@ const config: NuxtConfig = {
         regular: true,
         brands: true
       }
-    }]
+    }],
+    '@nuxtjs/style-resources'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
