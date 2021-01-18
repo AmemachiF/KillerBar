@@ -61,8 +61,11 @@
 import Vue from 'vue'
 import * as echarts from 'echarts'
 
-let chartIncrease: echarts.ECharts
-let chartTotal: echarts.ECharts
+declare type Chart = {
+  id: string,
+  obj?: echarts.ECharts,
+  title?: string
+}
 
 Vue.directive('resize', {
   bind (el, binding) {
@@ -86,6 +89,14 @@ Vue.directive('resize', {
 
 export default Vue.extend({
   data () {
+    const charts: Chart[] = [
+      {
+        id: 'chartIncrease'
+      },
+      {
+        id: 'chartTotal'
+      }
+    ]
     return {
       bossKeys: [
         { key: 'name', title: '姓名' },
@@ -99,15 +110,17 @@ export default Vue.extend({
         { key: 'association', title: '所属社团' }
       ],
       boss: {},
-      slide: 0
+      slide: 0,
+      charts
     }
   },
   created () {
     this.fetchBoss()
   },
   mounted () {
-    chartIncrease = this.echartsInit(chartIncrease, 'chartIncrease')
-    chartTotal = this.echartsInit(chartTotal, 'chartTotal')
+    this.charts.forEach((chart) => {
+      this.echartsInit(chart)
+    })
   },
   methods: {
     fetchBoss () {
@@ -126,11 +139,11 @@ export default Vue.extend({
     getProperty (key: string, value: any, defaults: any): any {
       return key in value ? value[key] : defaults
     },
-    echartsInit (chart: echarts.ECharts, id: string) {
-      chart = echarts.init(document.getElementById(id)!)
-      chart.setOption({
+    echartsInit (chart: Chart) {
+      const ec = echarts.init(document.getElementById(chart.id)!)
+      ec.setOption({
         title: {
-          text: 'ECharts 入门示例' + id
+          text: chart.title
         },
         tooltip: {},
         legend: {
@@ -146,12 +159,13 @@ export default Vue.extend({
           data: [5, 20, 36, 10, 10, 20]
         }]
       })
-      chart.resize({ width: 'auto', height: 'auto' })
-      return chart
+      ec.resize({ width: 'auto', height: 'auto' })
+      chart.obj = ec
     },
     chartResize () {
-      chartIncrease.resize({ width: 'auto', height: 'auto' })
-      chartTotal.resize({ width: 'auto', height: 'auto' })
+      this.charts.forEach((chart) => {
+        chart.obj?.resize({ width: 'auto', height: 'auto' })
+      })
       const curr = document.getElementsByClassName('chart')[this.slide]
 
       if (curr === undefined) {
@@ -169,8 +183,9 @@ export default Vue.extend({
 
       const opt = { width, height }
       // console.log({ slide: this.slide, opt })
-      chartIncrease.resize(opt)
-      chartTotal.resize(opt)
+      this.charts.forEach((chart) => {
+        chart.obj?.resize(opt)
+      })
     },
     getStyle (dom: any, attr: any) {
       return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom)[attr]
