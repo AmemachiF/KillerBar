@@ -1,11 +1,11 @@
 <template>
-  <nly-wrapper>
+  <nly-wrapper layout="fixed" navbar-fixed footer-fixed>
     <Header />
     <MainSidebar />
     <nly-content-wrapper>
       <nly-content-header>
         <b-container fluid class="text-center">
-          <fa icon="wrench" class="wrench" />
+          <fa icon="wrench" class="wrench position-relative" />
           施工中
           <fa icon="tools" />
         </b-container>
@@ -23,11 +23,6 @@
 import Vue from 'vue'
 
 export default Vue.extend({
-  head: {
-    bodyAttrs: {
-      // class: 'sidebar-mini layout-fixed'
-    }
-  }
 })
 </script>
 
@@ -38,6 +33,7 @@ export default Vue.extend({
 
 .wrench {
   animation: wrench 1s infinite;
+  top: 0.3em;
 }
 
 @keyframes wrench {
@@ -46,7 +42,7 @@ export default Vue.extend({
   }
 
   50% {
-    transform:rotate(90deg) translateY(-4px) translateX(-6px);
+    transform:rotate(90deg) translateY(0.2em) translateX(-0.6em);
   }
 
   100% {

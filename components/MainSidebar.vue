@@ -1,5 +1,5 @@
 <template>
-  <nly-sidebar-container variant="darkLightblue" elevation>
+  <nly-sidebar-container variant="darkLightblue" elevation side-mini>
     <nly-sidebar-brand to="/">
       <!-- TODO: Image -->
       <b-img-lazy
