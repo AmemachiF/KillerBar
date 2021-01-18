@@ -846,10 +846,10 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@changfeng/nly-adminlte-vue@^0.7.9-fix.7":
-  version "0.7.9-fix.7"
-  resolved "https://registry.yarnpkg.com/@changfeng/nly-adminlte-vue/-/nly-adminlte-vue-0.7.9-fix.7.tgz#24ae5a1e5ea349e899b364400b4f429974b6f874"
-  integrity sha512-vSVFFbaykl59F8GYKyJ6brbjExxj0zzwG4ub2TNI/FCjOcmzlqXR0YJMDZr5gh4wtDsmH3ZjQTpetme56L4rfw==
+"@changfeng/nly-adminlte-vue@^0.7.9-fix.8":
+  version "0.7.9-fix.8"
+  resolved "https://registry.yarnpkg.com/@changfeng/nly-adminlte-vue/-/nly-adminlte-vue-0.7.9-fix.8.tgz#c42dd05faceffe58f018604c8d76ac248c874edf"
+  integrity sha512-6LdRAyGWhXDBwqFLYeyGFu868LdGnbfmk+6UJJhsFiwiE2oWo+cBmonHpQyjrvMdvZ22HL8wKccFwZMttSU0lQ==
   dependencies:
     "@popperjs/core" "^2.5.3"
     core-js "^3.6.5"
