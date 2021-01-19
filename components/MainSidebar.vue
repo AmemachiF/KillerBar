@@ -3,8 +3,8 @@
     <nly-sidebar-brand to="/">
       <!-- TODO: Image src -->
       <b-img-lazy
-        src="http://amemachif.com/static/img/logo.b66abb45.png"
-        class="brand-image img-circle elevation-3"
+        src="/icon.png"
+        class="brand-image img-circle"
       />
       <nly-sidebar-brandtext weight>
         Killer Bar
