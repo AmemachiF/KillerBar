@@ -44,3 +44,8 @@ jobs:
 
       - name: Run linter 👀
         run: yarn lint
+
+      - name: Generate
+        run: yarn generate
+        env:
+          APP_ROUTER_BASE: '/Killer_Bar.pages/'
