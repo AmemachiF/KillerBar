@@ -33,7 +33,7 @@
           <b-aspect id="chartAspect">
             <b-carousel
               v-model="slide"
-              class="w-100 h-100"
+              class="w-100 h-50"
               controls
               img-height="100%"
               img-width="100%"
@@ -60,6 +60,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import * as echarts from 'echarts'
+import moment from 'moment'
 
 let chartIncrease: echarts.ECharts
 let chartTotal: echarts.ECharts
@@ -86,6 +87,9 @@ Vue.directive('resize', {
 
 export default Vue.extend({
   data () {
+    const initUpdateTime:Array<string> = []
+    const initChartIncreaseData:Array<string> = []
+    const initChartTotalData:Array<string> = []
     return {
       bossKeys: [
         { key: 'name', title: '姓名' },
@@ -99,11 +103,15 @@ export default Vue.extend({
         { key: 'association', title: '所属社团' }
       ],
       boss: {},
+      chartIncreaseData: initChartIncreaseData,
+      chartTotalData: initChartTotalData,
+      updateTime: initUpdateTime,
       slide: 0
     }
   },
   created () {
     this.fetchBoss()
+    this.fetchFollower()
   },
   mounted () {
     chartIncrease = this.echartsInit(chartIncrease, 'chartIncrease')
@@ -123,27 +131,84 @@ export default Vue.extend({
           this.boss = {}
         })
     },
+    fetchFollower () {
+      this.$axios.get('https://api.amemachif.com:2333/follower')
+        .then((res) => {
+          if (res.data.code === 20000) {
+            const follower = res.data.data
+            // 数据处理
+            const followerLength = follower.length - 1
+            for (let key = 1; key < followerLength; key += 1) {
+              const preFollower = follower[key - 1]
+              this.chartIncreaseData.push((follower[key].number - preFollower.number).toString())
+              this.chartTotalData.push(follower[key].number)
+              const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+              this.updateTime.push(time)
+              this.echartsInit(chartIncrease, 'chartIncrease')
+              this.echartsInit(chartTotal, 'chartTotal')
+            }
+          }
+        })
+        .catch((_) => {
+
+        })
+    },
     getProperty (key: string, value: any, defaults: any): any {
       return key in value ? value[key] : defaults
     },
     echartsInit (chart: echarts.ECharts, id: string) {
+      let chartData
+      switch (id) {
+        case 'chartIncrease':
+          chartData = this.chartIncreaseData
+          break
+        case 'chartTotal':
+          chartData = this.chartTotalData
+          break
+        default:
+          break
+      }
       chart = echarts.init(document.getElementById(id)!)
       chart.setOption({
         title: {
           text: 'ECharts 入门示例' + id
         },
-        tooltip: {},
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
         legend: {
           data: ['销量']
         },
-        xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+        grid: {
+          left: '7%',
+          right: '7%',
+          top: 40,
+          bottom: 20
         },
-        yAxis: {},
+        xAxis: {
+          data: this.updateTime
+        },
+        yAxis: {
+          type: 'value',
+          scale: true
+        },
         series: [{
-          name: '销量',
+          name: '关注增量/每十分钟',
           type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
+          data: chartData,
+          itemStyle: {
+            normal: {
+              opacity: 0.4,
+              barBorderRadius: 5,
+              shadowBlur: 3
+            }
+          }
         }]
       })
       chart.resize({ width: 'auto', height: 'auto' })

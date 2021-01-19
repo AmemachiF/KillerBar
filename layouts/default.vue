@@ -7,7 +7,6 @@
         <b-container fluid class="text-center">
           <fa icon="wrench" class="wrench position-relative" />
           施工中
-          <fa icon="tools" />
         </b-container>
       </nly-content-header>
       <nly-content>
