@@ -28,10 +28,13 @@
 import Vue from 'vue'
 import * as echarts from 'echarts'
 
-declare type Chart = {
+export type Chart = {
   id: string,
   obj?: echarts.ECharts,
-  title?: string
+  title?: string,
+  chartData?: any,
+  xAxisData?: any,
+  seriesName?: string
 }
 
 export default Vue.extend({
@@ -63,21 +66,47 @@ export default Vue.extend({
         title: {
           text: chart.title
         },
-        tooltip: {},
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow',
+            label: {
+              backgroundColor: '#6a7985'
+            }
+          }
+        },
         legend: {
-          data: ['销量']
+          data: [chart.seriesName]
+        },
+        grid: {
+          left: '7%',
+          right: '7%',
+          top: 40,
+          bottom: 20
         },
         xAxis: {
-          data: ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
+          data: []
         },
-        yAxis: {},
+        yAxis: {
+          type: 'value',
+          scale: true
+        },
         series: [{
-          name: '销量',
+          name: chart.seriesName,
           type: 'bar',
-          data: [5, 20, 36, 10, 10, 20]
+          data: [],
+          itemStyle: {
+            normal: {
+              opacity: 0.4,
+              barBorderRadius: 5,
+              shadowBlur: 3
+            }
+          }
         }]
       })
-      ec.resize({ width: 'auto', height: 'auto' })
+      window.onload?.bind(() => {
+        ec.resize({ width: 'auto', height: 'auto' })
+      })
       chart.obj = ec
     },
     chartResize () {
