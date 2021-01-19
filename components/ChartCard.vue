@@ -9,16 +9,16 @@
         img-width="100%"
         @sliding-end="onSlideEnd"
       >
-        <b-carousel-slide class="w-100 h-100">
+        <b-carousel-slide v-for="chart in charts" :key="chart.id" class="w-100 h-100">
           <template #img>
-            <b-container id="chartIncrease" fluid class="chart w-100 h-100" />
+            <b-container :id="chart.id" fluid class="chart w-100 h-100" />
           </template>
         </b-carousel-slide>
-        <b-carousel-slide class="w-100 h-100">
+        <!-- <b-carousel-slide class="w-100 h-100">
           <template #img>
             <b-container id="chartTotal" fluid class="chart w-100 h-100" />
           </template>
-        </b-carousel-slide>
+        </b-carousel-slide> -->
       </b-carousel>
     </b-aspect>
   </b-card>

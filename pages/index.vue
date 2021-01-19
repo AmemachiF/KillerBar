@@ -21,12 +21,20 @@ export default Vue.extend({
   data () {
     const charts: Chart[] = [
       {
+        id: 'chartTotal',
+        seriesName: '关注总量/每十分钟'
+      },
+      {
         id: 'chartIncrease',
         seriesName: '关注增量/每十分钟'
       },
       {
-        id: 'chartTotal',
-        seriesName: '关注总量/每十分钟'
+        id: 'chartCaptainTotal',
+        seriesName: '大航海总量/每天'
+      },
+      {
+        id: 'chartCaptainIncrease',
+        seriesName: '大航海增量/每天'
       }
     ]
     const initUpdateTime:Array<string> = []
@@ -54,7 +62,10 @@ export default Vue.extend({
   },
   created () {
     this.fetchBoss()
+  },
+  mounted () {
     this.fetchFollower()
+    this.fetchCaptain()
   },
   methods: {
     fetchBoss () {
@@ -79,33 +90,68 @@ export default Vue.extend({
             const followerLength = follower.length - 1
             const chartIncrease = this.charts.find(p => p.id === 'chartIncrease')!
             const chartTotal = this.charts.find(p => p.id === 'chartTotal')!
+            const chartIncreaseData: string[] = []
+            const chartTotalData: string[] = []
+            const updateTime: string[] = []
             for (let key = 1; key < followerLength; key += 1) {
               const preFollower = follower[key - 1]
-              this.chartIncreaseData.push((follower[key].number - preFollower.number).toString())
-              this.chartTotalData.push(follower[key].number)
+              chartIncreaseData.push((follower[key].number - preFollower.number).toString())
+              chartTotalData.push(follower[key].number)
               const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
-              this.updateTime.push(time)
+              updateTime.push(time)
             }
-            chartIncrease.chartData = this.chartIncreaseData
-            chartTotal.chartData = this.chartTotalData
-            this.charts.forEach((chart) => {
-              chart.xAxisData = this.updateTime
-              chart.obj?.setOption({
-                xAxis: {
-                  data: chart.xAxisData
-                },
-                series: [{
-                  // 根据名字对应到相应的系列
-                  name: chart.seriesName,
-                  data: chart.chartData
-                }]
-              })
-            })
+            chartIncrease.chartData = chartIncreaseData
+            chartTotal.chartData = chartTotalData
+            chartIncrease.xAxisData = updateTime
+            chartTotal.xAxisData = updateTime
+            this.updateChart()
           }
         })
         .catch((_) => {
-
         })
+    },
+    fetchCaptain () {
+      this.$axios.get('https://api.amemachif.com:2333/captain')
+        .then((res) => {
+          if (res.data.code === 20000) {
+            const captain = res.data.data
+            // 数据处理
+            const captainLength = captain.length - 1
+            const chartCaptainIncrease = this.charts.find(p => p.id === 'chartCaptainIncrease')!
+            const chartCaptainTotal = this.charts.find(p => p.id === 'chartCaptainTotal')!
+            const chartIncreaseData: string[] = []
+            const chartTotalData: string[] = []
+            const updateTime: string[] = []
+            for (let key = 1; key < captainLength; key += 1) {
+              const preFollower = captain[key - 1]
+              chartIncreaseData.push((captain[key].number - preFollower.number).toString())
+              chartTotalData.push(captain[key].number)
+              const time = moment(captain[key].update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+              updateTime.push(time)
+            }
+            chartCaptainIncrease.chartData = chartIncreaseData
+            chartCaptainTotal.chartData = chartTotalData
+            chartCaptainIncrease.xAxisData = updateTime
+            chartCaptainTotal.xAxisData = updateTime
+            this.updateChart()
+          }
+        })
+        .catch((_) => {
+        })
+    },
+    updateChart () {
+      this.charts.forEach((chart) => {
+        chart.obj?.setOption({
+          xAxis: {
+            data: chart.xAxisData
+          },
+          series: [{
+            // 根据名字对应到相应的系列
+            name: chart.seriesName,
+            data: chart.chartData
+          }]
+        })
+      })
     },
     getProperty (key: string, value: any, defaults: any): any {
       return key in value ? value[key] : defaults
