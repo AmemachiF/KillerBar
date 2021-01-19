@@ -78,4 +78,29 @@ export default Vue.extend({})
   padding-left: 10px;
   font-size: 14px;
 }
+.layout-navbar-fixed .wrapper .main-sidebar:hover .brand-link ,
+.layout-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+  .layout-xl-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-xl-navbar-fixed .wrapper .brand-link ,
+.layout-navbar-fixed .wrapper .brand-link ,
+.layout-sm-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-sm-navbar-fixed .wrapper .brand-link ,
+.layout-md-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-md-navbar-fixed .wrapper .brand-link ,
+.layout-lg-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-lg-navbar-fixed .wrapper .brand-link ,
+.layout-xl-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-xl-navbar-fixed .wrapper .brand-link ,
+.main-sidebar, .main-sidebar::before ,
+.layout-fixed .brand-link ,
+.sidebar-mini.sidebar-collapse .main-sidebar:hover, .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused ,
+.sidebar-mini.sidebar-collapse .main-sidebar:hover .brand-link, .sidebar-mini.sidebar-collapse .main-sidebar.sidebar-focused .brand-link ,
+.sidebar-mini.sidebar-collapse.layout-fixed .main-sidebar:hover .brand-link ,
+.sidebar-mini-md.sidebar-collapse .main-sidebar:hover, .sidebar-mini-md.sidebar-collapse .main-sidebar.sidebar-focused ,
+.sidebar-mini-md.sidebar-collapse .main-sidebar:hover .brand-link, .sidebar-mini-md.sidebar-collapse .main-sidebar.sidebar-focused .brand-link ,
+.sidebar-mini-md.sidebar-collapse.layout-fixed .main-sidebar:hover .brand-link ,
+.control-sidebar, .control-sidebar::before {
+  width: 200px;
+}
+
 </style>
