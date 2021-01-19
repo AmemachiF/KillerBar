@@ -25,7 +25,7 @@
                 </b-card-body>
               </b-col>
               <b-col v-if="n.pictures" cols="4">
-                <b-img-lazy :src="n.pictures[0].imgSrc" fluid-grow />
+                <b-card-img-lazy :src="n.pictures[0].imgSrc" fluid-grow />
               </b-col>
             </b-row>
           </b-card>
