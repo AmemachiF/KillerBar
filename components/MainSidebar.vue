@@ -1,13 +1,13 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation side-mini>
-    <nly-sidebar-brand to="/">
+    <nly-sidebar-brand to="/" >
       <!-- TODO: Image src -->
       <b-img-lazy
         src="~/assets/icon.png"
         class="brand-image img-circle"
       />
       <nly-sidebar-brandtext weight>
-        Killer Bar
+        <b>鲨手酒吧</b>
       </nly-sidebar-brandtext>
     </nly-sidebar-brand>
     <nly-sidebar>
@@ -71,5 +71,10 @@ export default Vue.extend({})
 
 .main-sidebar .nav-sidebar .nav-item a {
   padding: 1rem;
+}
+
+.main-sidebar p{
+  padding-left: 10px;
+  font-size: 14px;
 }
 </style>
