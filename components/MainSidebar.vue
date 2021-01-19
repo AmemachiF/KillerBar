@@ -3,7 +3,7 @@
     <nly-sidebar-brand to="/">
       <!-- TODO: Image src -->
       <b-img-lazy
-        src="/icon.png"
+        src="~/assets/icon.png"
         class="brand-image img-circle"
       />
       <nly-sidebar-brandtext weight>
