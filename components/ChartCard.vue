@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <b-aspect :id="id" aspect="2:1" class="chartAspect">
+    <div :id="id" class="chartAspect">
       <b-carousel
         v-model="slide"
         class="w-100 h-100"
@@ -15,13 +15,8 @@
             <b-container :id="chart.id" fluid class="chart w-100 h-100" />
           </template>
         </b-carousel-slide>
-        <!-- <b-carousel-slide class="w-100 h-100">
-          <template #img>
-            <b-container id="chartTotal" fluid class="chart w-100 h-100" />
-          </template>
-        </b-carousel-slide> -->
       </b-carousel>
-    </b-aspect>
+    </div>
   </b-card>
 </template>
 
@@ -86,8 +81,8 @@ export default Vue.extend({
           data: [chart.seriesName]
         },
         grid: {
-          left: '7%',
-          right: '7%',
+          left: '15%',
+          right: '15%',
           top: 40,
           bottom: 20
         },
@@ -158,8 +153,15 @@ export default Vue.extend({
 })
 </script>
 
+<style scoped>
+.chartAspect {
+  height: 14rem;
+}
+</style>
+
 <style>
-.chartAspect .carousel-control-prev-icon, .carousel-control-next-icon {
+.chartAspect .carousel-control-prev-icon,
+.chartAspect .carousel-control-next-icon {
   background-color: black;
   opacity: 0.5;
   border-radius: 50%;
@@ -167,9 +169,4 @@ export default Vue.extend({
   background-size: 1em 1em;
   padding: 1em;
 }
-
-/* .chartAspect .chart canvas {
-  position: relative;
-  left: 1em !important;
-} */
 </style>

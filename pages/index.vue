@@ -6,6 +6,7 @@
       </b-col>
       <b-col>
         <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
+        <NewsCard :news="news" />
         <ChartCard id="chartCard" ref="chartCard" :charts="charts" />
         <ChartCard id="chartCardCaptain" ref="chartCardCaptain" :charts="chartsCaptain" />
       </b-col>
@@ -17,6 +18,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { Chart } from '~/components/ChartCard.vue'
+import { News, NewsPicture } from '~/components/NewsCard.vue'
 
 export default Vue.extend({
   data () {
@@ -50,6 +52,7 @@ export default Vue.extend({
         seriesName: '大航海增量/每天'
       }
     ]
+    const news: News[] = []
     return {
       bossKeys: [
         { key: 'name', title: '姓名' },
@@ -65,13 +68,13 @@ export default Vue.extend({
       boss: {},
       slide: 0,
       charts,
-      chartsCaptain
+      chartsCaptain,
+      news
     }
   },
-  created () {
-    this.fetchBoss()
-  },
   mounted () {
+    this.fetchBoss()
+    this.fetchNews()
     this.fetchFollower()
     this.fetchCaptain()
   },
@@ -144,6 +147,38 @@ export default Vue.extend({
             chartCaptainIncrease.xAxisData = updateTime
             chartCaptainTotal.xAxisData = updateTime
             this.updateChart(charts)
+          }
+        })
+        .catch((_) => {
+        })
+    },
+    fetchNews () {
+      this.$axios.get('https://api.amemachif.com:2333/news')
+        .then((res) => {
+          if (res.data.code === 20000) {
+            this.news = []
+            res.data.data.forEach((n: any) => {
+              let pic: NewsPicture[] | undefined
+              if (n.pictures) {
+                pic = []
+                n.pictures.forEach((p: any) => {
+                  pic?.push({
+                    imgSrc: p.img_src,
+                    imgWidth: p.img_width,
+                    imgHeight: p.img_height,
+                    imgSize: p.img_size,
+                    imgTag: p.img_tag
+                  })
+                })
+              }
+              this.news.push({
+                id: n.id,
+                content: n.content,
+                emojiInfo: n.emoji_info,
+                pictures: pic,
+                updateTime: moment(n.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+              })
+            })
           }
         })
         .catch((_) => {

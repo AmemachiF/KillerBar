@@ -10,7 +10,7 @@ const config: NuxtConfig = {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'Killer Bar',
+    title: '鲨手酒吧',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -28,7 +28,7 @@ const config: NuxtConfig = {
 
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
-    { src: '~plugins/FontAwesome', mode: 'all' },
+    // { src: '~plugins/FontAwesome', mode: 'all' },
     { src: '~plugins/NlyAdminlteVue.js', mode: 'all' }
   ],
 
