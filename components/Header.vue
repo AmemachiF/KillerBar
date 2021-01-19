@@ -11,7 +11,7 @@
           <fa icon="bars" />
         </nly-nav-item>
         <nly-nav-text>
-          <nly-breadcrumb :items="breadcrumbItems" class="my-0" />
+          <b-breadcrumb :items="items" class="my-0 py-0" />
         </nly-nav-text>
       </nly-navbar-nav>
     </nly-navbar>
@@ -20,16 +20,48 @@
 
 <script lang="ts">
 import Vue from 'vue'
+
 export default Vue.extend({
-  computed: {
+  props: {
+    routeNames: {
+      type: Object,
+      default () {
+        return {}
+      }
+    }
+  },
+  data () {
+    const items: any[] = []
+    return {
+      items
+    }
+  },
+  watch: {
+    $route () {
+      this.breadcrumbItems()
+    }
+  },
+  created () {
+    this.breadcrumbItems()
+  },
+  methods: {
     breadcrumbItems () {
-      return this.$store.state.breadcrumbItems
+      const currName = this.$route.name!
+      const curr = this.routeNames[currName]
+      const items = [
+        {
+          text: 'Killer Bar',
+          to: '/'
+        }
+      ]
+      items.push(curr)
+      this.items = items
     }
   }
 })
 </script>
 
-<style lang="stylus" scope>
+<style lang="css" scope>
 ol.breadcrumb {
   background-color: transparent;
 }

@@ -2,38 +2,15 @@
   <b-container fluid>
     <b-row>
       <b-col>
-        <b-card v-resize="chartResize" header="档案">
-          <b-card-text>
-            <b-row>
-              <b-col cols="5" class="m-0">
-                <!-- TODO: Image src -->
-                <b-img-lazy src="http://amemachif.com/static/img/Amemachi_Hanken.683544ef.png" fluid />
-              </b-col>
-              <b-col id="bossInfo" class="m-0">
-                <b-row v-for="bk in bossKeys" :key="bk.id">
-                  <b-col class="text-right boss-key" cols="4">
-                    {{ bk.title }}
-                  </b-col>
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <b-col v-html="getProperty(bk.key, boss, 'Loading...')" />
-                </b-row>
-              </b-col>
-            </b-row>
-          </b-card-text>
-        </b-card>
+        <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" image="http://amemachif.com/static/img/Amemachi_Hanken.683544ef.png" />
       </b-col>
       <b-col>
-        <b-card header="公告">
-          <b-card-text>
-            <b-avatar v-if="'avatar' in boss" :src="boss.avatar" size="5rem" class="float-left mr-3" />
-            雨街F天下第一可爱！ 施工中，前端技术栈是Nuxt.js + BootstrapVue + NlyAdminlteVue
-          </b-card-text>
-        </b-card>
+        <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
         <b-card>
           <b-aspect id="chartAspect">
             <b-carousel
               v-model="slide"
-              class="w-100 h-50"
+              class="w-100 h-100"
               controls
               img-height="100%"
               img-width="100%"
@@ -62,8 +39,11 @@ import Vue from 'vue'
 import * as echarts from 'echarts'
 import moment from 'moment'
 
-let chartIncrease: echarts.ECharts
-let chartTotal: echarts.ECharts
+declare type Chart = {
+  id: string,
+  obj?: echarts.ECharts,
+  title?: string
+}
 
 Vue.directive('resize', {
   bind (el, binding) {
@@ -87,6 +67,14 @@ Vue.directive('resize', {
 
 export default Vue.extend({
   data () {
+    const charts: Chart[] = [
+      {
+        id: 'chartIncrease'
+      },
+      {
+        id: 'chartTotal'
+      }
+    ]
     const initUpdateTime:Array<string> = []
     const initChartIncreaseData:Array<string> = []
     const initChartTotalData:Array<string> = []
@@ -103,6 +91,8 @@ export default Vue.extend({
         { key: 'association', title: '所属社团' }
       ],
       boss: {},
+      slide: 0,
+      charts,
       chartIncreaseData: initChartIncreaseData,
       chartTotalData: initChartTotalData,
       updateTime: initUpdateTime,
@@ -114,8 +104,9 @@ export default Vue.extend({
     this.fetchFollower()
   },
   mounted () {
-    chartIncrease = this.echartsInit(chartIncrease, 'chartIncrease')
-    chartTotal = this.echartsInit(chartTotal, 'chartTotal')
+    this.charts.forEach((chart) => {
+      this.echartsInit(chart)
+    })
   },
   methods: {
     fetchBoss () {
@@ -144,8 +135,9 @@ export default Vue.extend({
               this.chartTotalData.push(follower[key].number)
               const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
               this.updateTime.push(time)
-              this.echartsInit(chartIncrease, 'chartIncrease')
-              this.echartsInit(chartTotal, 'chartTotal')
+              this.charts.forEach((chart) => {
+                this.echartsInit(chart)
+              })
             }
           }
         })
@@ -156,9 +148,9 @@ export default Vue.extend({
     getProperty (key: string, value: any, defaults: any): any {
       return key in value ? value[key] : defaults
     },
-    echartsInit (chart: echarts.ECharts, id: string) {
+    echartsInit (chart: Chart) {
       let chartData
-      switch (id) {
+      switch (chart.id) {
         case 'chartIncrease':
           chartData = this.chartIncreaseData
           break
@@ -168,10 +160,10 @@ export default Vue.extend({
         default:
           break
       }
-      chart = echarts.init(document.getElementById(id)!)
-      chart.setOption({
+      const ec = echarts.init(document.getElementById(chart.id)!)
+      ec.setOption({
         title: {
-          text: 'ECharts 入门示例' + id
+          text: 'ECharts 入门示例' + chart.id
         },
         tooltip: {
           trigger: 'axis',
@@ -211,12 +203,13 @@ export default Vue.extend({
           }
         }]
       })
-      chart.resize({ width: 'auto', height: 'auto' })
-      return chart
+      ec.resize({ width: 'auto', height: 'auto' })
+      chart.obj = ec
     },
     chartResize () {
-      chartIncrease.resize({ width: 'auto', height: 'auto' })
-      chartTotal.resize({ width: 'auto', height: 'auto' })
+      this.charts.forEach((chart) => {
+        chart.obj?.resize({ width: 'auto', height: 'auto' })
+      })
       const curr = document.getElementsByClassName('chart')[this.slide]
 
       if (curr === undefined) {
@@ -234,8 +227,9 @@ export default Vue.extend({
 
       const opt = { width, height }
       // console.log({ slide: this.slide, opt })
-      chartIncrease.resize(opt)
-      chartTotal.resize(opt)
+      this.charts.forEach((chart) => {
+        chart.obj?.resize(opt)
+      })
     },
     getStyle (dom: any, attr: any) {
       return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom)[attr]
@@ -248,19 +242,6 @@ export default Vue.extend({
 </script>
 
 <style lang="stylus" scoped>
-#bossInfo {
-  font-size: 0.9rem;
-  padding: 0;
-}
-
-#bossInfo .row {
-  margin: 0.7rem auto;
-}
-
-#bossInfo .boss-key {
-  font-weight: bold;
-}
-
 #chartIncrease {
   width: 100%;
   height: 100%;

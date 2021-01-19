@@ -3,7 +3,7 @@
     <nly-sidebar-brand to="/" >
       <!-- TODO: Image src -->
       <b-img-lazy
-        src="/icon.png"
+        src="~/assets/icon.png"
         class="brand-image img-circle"
       />
       <nly-sidebar-brandtext weight>
@@ -12,22 +12,40 @@
     </nly-sidebar-brand>
     <nly-sidebar>
       <nly-sidebar-nav class="mt-2" legacy flat child-indent>
-        <nly-sidebar-nav-item icon="nav-icon fas fa-tachometer-alt" to="/">
+        <nly-sidebar-nav-item icon="nav-icon" to="/">
+          <template #icon>
+            <fa icon="tachometer-alt" />
+          </template>
           档案
         </nly-sidebar-nav-item>
-        <nly-sidebar-nav-item icon="nav-icon fas fa-eye" to="/observation">
+        <nly-sidebar-nav-item icon="nav-icon" to="/observation">
+          <template #icon>
+            <fa icon="eye" />
+          </template>
           观测站
         </nly-sidebar-nav-item>
-        <nly-sidebar-nav-item icon="nav-icon fas fa-th" to="/bar">
+        <nly-sidebar-nav-item icon="nav-icon" to="/bar">
+          <template #icon>
+            <fa icon="th" />
+          </template>
           吧台
         </nly-sidebar-nav-item>
-        <nly-sidebar-nav-item icon="nav-icon fas fa-user" to="/brother">
+        <nly-sidebar-nav-item icon="nav-icon" to="/brother">
+          <template #icon>
+            <fa icon="user" />
+          </template>
           成员
         </nly-sidebar-nav-item>
-        <nly-sidebar-nav-item icon="nav-icon fas fa-external-link-alt" target="_blank" rel="noopener" href="https://mzh.moegirl.org.cn/zh-hans/%E9%9B%A8%E8%A1%97F">
+        <nly-sidebar-nav-item icon="nav-icon" target="_blank" rel="noopener" href="https://mzh.moegirl.org.cn/zh-hans/%E9%9B%A8%E8%A1%97F">
+          <template #icon>
+            <fa icon="external-link-alt" />
+          </template>
           萌娘百科
         </nly-sidebar-nav-item>
-        <nly-sidebar-nav-item icon="nav-icon fas fa-external-link-alt" target="_blank" rel="noopener" href="https://space.bilibili.com/118754720/">
+        <nly-sidebar-nav-item icon="nav-icon" target="_blank" rel="noopener" href="https://space.bilibili.com/118754720/">
+          <template #icon>
+            <fa icon="external-link-alt" />
+          </template>
           哔哩哔哩
         </nly-sidebar-nav-item>
       </nly-sidebar-nav>
