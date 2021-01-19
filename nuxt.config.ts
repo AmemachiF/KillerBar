@@ -1,5 +1,7 @@
 import { NuxtConfig } from '@nuxt/types'
 
+const routeBase = process.env.APP_ROUTER_BASE
+
 const config: NuxtConfig = {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -8,7 +10,7 @@ const config: NuxtConfig = {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: 'killer_bar',
+    title: 'Killer Bar',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -16,7 +18,7 @@ const config: NuxtConfig = {
       { name: 'referrer', content: 'no-referrer' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: (routeBase ?? '') + '/favicon.ico' }
     ]
   },
 
@@ -31,7 +33,7 @@ const config: NuxtConfig = {
   ],
 
   router: {
-    base: process.env.APP_ROUTER_BASE ?? '/'
+    base: routeBase ?? '/'
   },
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
