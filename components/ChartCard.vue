@@ -160,7 +160,8 @@ export default Vue.extend({
 </style>
 
 <style>
-.chartAspect .carousel-control-prev-icon, .carousel-control-next-icon {
+.chartAspect .carousel-control-prev-icon,
+.chartAspect .carousel-control-next-icon {
   background-color: black;
   opacity: 0.5;
   border-radius: 50%;
