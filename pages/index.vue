@@ -2,33 +2,10 @@
   <b-container fluid>
     <b-row>
       <b-col>
-        <b-card v-resize="chartResize" header="档案">
-          <b-card-text>
-            <b-row>
-              <b-col cols="5" class="m-0">
-                <!-- TODO: Image src -->
-                <b-img-lazy src="http://amemachif.com/static/img/Amemachi_Hanken.683544ef.png" fluid />
-              </b-col>
-              <b-col id="bossInfo" class="m-0">
-                <b-row v-for="bk in bossKeys" :key="bk.id">
-                  <b-col class="text-right boss-key" cols="4">
-                    {{ bk.title }}
-                  </b-col>
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <b-col v-html="getProperty(bk.key, boss, 'Loading...')" />
-                </b-row>
-              </b-col>
-            </b-row>
-          </b-card-text>
-        </b-card>
+        <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" image="http://amemachif.com/static/img/Amemachi_Hanken.683544ef.png" />
       </b-col>
       <b-col>
-        <b-card header="公告">
-          <b-card-text>
-            <b-avatar v-if="'avatar' in boss" :src="boss.avatar" size="5rem" class="float-left mr-3" />
-            雨街F天下第一可爱！ 施工中，前端技术栈是Nuxt.js + BootstrapVue + NlyAdminlteVue
-          </b-card-text>
-        </b-card>
+        <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
         <b-card>
           <b-aspect id="chartAspect">
             <b-carousel
@@ -198,19 +175,6 @@ export default Vue.extend({
 </script>
 
 <style lang="stylus" scoped>
-#bossInfo {
-  font-size: 0.9rem;
-  padding: 0;
-}
-
-#bossInfo .row {
-  margin: 0.7rem auto;
-}
-
-#bossInfo .boss-key {
-  font-weight: bold;
-}
-
 #chartIncrease {
   width: 100%;
   height: 100%;
