@@ -1,24 +1,25 @@
 <template>
   <b-card>
-    <b-aspect id="chartAspect">
+    <b-aspect :id="id" aspect="2:1" class="chartAspect">
       <b-carousel
         v-model="slide"
         class="w-100 h-100"
         controls
         img-height="100%"
         img-width="100%"
+        @sliding-start="sliding = true"
         @sliding-end="onSlideEnd"
       >
-        <b-carousel-slide class="w-100 h-100">
+        <b-carousel-slide v-for="chart in charts" :key="chart.id" class="w-100 h-100">
           <template #img>
-            <b-container id="chartIncrease" fluid class="chart w-100 h-100" />
+            <b-container :id="chart.id" fluid class="chart w-100 h-100" />
           </template>
         </b-carousel-slide>
-        <b-carousel-slide class="w-100 h-100">
+        <!-- <b-carousel-slide class="w-100 h-100">
           <template #img>
             <b-container id="chartTotal" fluid class="chart w-100 h-100" />
           </template>
-        </b-carousel-slide>
+        </b-carousel-slide> -->
       </b-carousel>
     </b-aspect>
   </b-card>
@@ -34,7 +35,8 @@ export type Chart = {
   title?: string,
   chartData?: any,
   xAxisData?: any,
-  seriesName?: string
+  seriesName?: string,
+  options?: echarts.EChartsOption
 }
 
 export default Vue.extend({
@@ -44,11 +46,16 @@ export default Vue.extend({
       default () {
         return []
       }
+    },
+    id: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
-      slide: 0
+      slide: 0,
+      sliding: false
     }
   },
   mounted () {
@@ -104,23 +111,29 @@ export default Vue.extend({
           }
         }]
       })
+      if (chart.options) {
+        ec.setOption(chart.options)
+      }
       window.onload?.bind(() => {
         ec.resize({ width: 'auto', height: 'auto' })
       })
       chart.obj = ec
     },
     chartResize () {
-      (this.charts as Chart[]).forEach((chart) => {
-        chart.obj?.resize({ width: 'auto', height: 'auto' })
-      })
-      const curr = document.getElementsByClassName('chart')[this.slide]
-
-      if (curr === undefined) {
+      if (this.sliding === true) {
         return
       }
 
-      const clientHeight = curr!.clientHeight
-      const clientWidth = curr!.clientWidth
+      (this.charts as Chart[]).forEach((chart) => {
+        chart.obj?.resize({ width: 'auto', height: 'auto' })
+      })
+
+      const ec = (this.charts as Chart[])[this.slide].obj!
+      const clientHeight = ec.getHeight()
+      const clientWidth = ec.getWidth()
+      const curr = ec.getDom()
+      // const clientHeight = curr!.clientHeight
+      // const clientWidth = curr!.clientWidth
       const paddingTop = Number(this.getStyle(curr!, 'paddingTop').replace(/\s+|px/gi, ''))
       const paddingBottom = Number(this.getStyle(curr!, 'paddingBottom').replace(/\s+|px/gi, ''))
       const height = clientHeight - paddingTop - paddingBottom
@@ -138,8 +151,25 @@ export default Vue.extend({
       return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom)[attr]
     },
     onSlideEnd () {
+      this.sliding = false
       this.chartResize()
     }
   }
 })
 </script>
+
+<style>
+.chartAspect .carousel-control-prev-icon, .carousel-control-next-icon {
+  background-color: black;
+  opacity: 0.5;
+  border-radius: 50%;
+  background-position: center;
+  background-size: 1em 1em;
+  padding: 1em;
+}
+
+/* .chartAspect .chart canvas {
+  position: relative;
+  left: 1em !important;
+} */
+</style>

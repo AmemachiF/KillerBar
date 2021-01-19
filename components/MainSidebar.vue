@@ -1,6 +1,6 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation side-mini>
-    <nly-sidebar-brand to="/" >
+    <nly-sidebar-brand to="/">
       <!-- TODO: Image src -->
       <b-img-lazy
         src="~/assets/icon.png"
@@ -59,14 +59,15 @@ import Vue from 'vue'
 export default Vue.extend({})
 </script>
 
-<style lang="css" scoped>
+<style lang="stylus" scoped>
 #bottom-image {
   left: 0;
   bottom: 0;
 }
 
-.main-sidebar {
+.main-sidebar * {
   background-color: #304156 !important;
+  font-size: 0.98em !important;
 }
 
 .main-sidebar .nav-sidebar .nav-item a {
