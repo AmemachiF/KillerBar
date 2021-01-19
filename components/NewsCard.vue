@@ -6,14 +6,14 @@
       img-width="100%"
       class="h-100 pb-2 mt-0"
     >
-      <b-carousel-slide v-for="n in news" :key="n.id" class="w-100 h-100 overflow-hidden">
+      <b-carousel-slide v-for="(n, index) in news" :key="n.id" class="w-100 h-100 overflow-hidden">
         <template #img>
           <b-card
             v-b-modal.newsModal
             no-body
             fluid
             class="w-100 h-100"
-            :header="'(' + (news.indexOf(n) + 1) + '/' + news.length + ') ' + n.updateTime"
+            :header="'(' + (index + 1) + '/' + news.length + ') ' + n.updateTime"
             @click="modal = n"
           >
             <b-row>
