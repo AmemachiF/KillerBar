@@ -1,13 +1,13 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation side-mini>
-    <nly-sidebar-brand to="/">
+    <nly-sidebar-brand to="/" >
       <!-- TODO: Image src -->
       <b-img-lazy
         src="~/assets/icon.png"
         class="brand-image img-circle"
       />
       <nly-sidebar-brandtext weight>
-        Killer Bar
+        <b>鲨手酒吧</b>
       </nly-sidebar-brandtext>
     </nly-sidebar-brand>
     <nly-sidebar>
@@ -50,6 +50,7 @@
         </nly-sidebar-nav-item>
       </nly-sidebar-nav>
     </nly-sidebar>
+    <b-img-lazy id="bottom-image" src="~/assets/starteye.png" class="position-absolute w-100" />
   </nly-sidebar-container>
 </template>
 
@@ -58,12 +59,22 @@ import Vue from 'vue'
 export default Vue.extend({})
 </script>
 
-<style lang="stylus" scoped>
+<style lang="css" scoped>
+#bottom-image {
+  left: 0;
+  bottom: 0;
+}
+
 .main-sidebar {
   background-color: #304156 !important;
 }
 
 .main-sidebar .nav-sidebar .nav-item a {
   padding: 1rem;
+}
+
+.main-sidebar p{
+  padding-left: 10px;
+  font-size: 14px;
 }
 </style>

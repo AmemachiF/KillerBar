@@ -1,6 +1,6 @@
 <template>
   <nly-wrapper-header>
-    <nly-navbar variant="light">
+    <nly-navbar variant="white">
       <!-- Navbar left -->
       <nly-navbar-nav>
         <nly-nav-item
