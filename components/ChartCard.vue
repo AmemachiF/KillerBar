@@ -1,6 +1,6 @@
 <template>
   <b-card>
-    <b-aspect id="chartAspect">
+    <b-aspect id="chartAspect" aspect="2:1">
       <b-carousel
         v-model="slide"
         class="w-100 h-100"
@@ -143,3 +143,14 @@ export default Vue.extend({
   }
 })
 </script>
+
+<style>
+#chartAspect .carousel-control-prev-icon, .carousel-control-next-icon {
+  background-color: black;
+  opacity: 0.5;
+  border-radius: 50%;
+  background-position: center;
+  background-size: 1em 1em;
+  padding: 1em;
+}
+</style>
