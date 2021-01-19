@@ -11,7 +11,7 @@
       </nly-sidebar-brandtext>
     </nly-sidebar-brand>
     <nly-sidebar>
-      <nly-sidebar-nav class="mt-2" brand-size="sm-2" legacy flat child-indent>
+      <nly-sidebar-nav class="mt-2" legacy flat child-indent>
         <nly-sidebar-nav-item icon="nav-icon fas fa-tachometer-alt" to="/">
           档案
         </nly-sidebar-nav-item>
