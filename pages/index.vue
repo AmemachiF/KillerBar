@@ -95,8 +95,7 @@ export default Vue.extend({
       charts,
       chartIncreaseData: initChartIncreaseData,
       chartTotalData: initChartTotalData,
-      updateTime: initUpdateTime,
-      slide: 0
+      updateTime: initUpdateTime
     }
   },
   created () {
