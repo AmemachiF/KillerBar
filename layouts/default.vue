@@ -34,7 +34,7 @@ Vue.directive('resize', {
       height = style?.height
     }
 
-    (el as any).__vueReize__ = setInterval(get, 200)
+    (el as any).__vueReize__ = setInterval(get, 10)
   },
   unbind (el) {
     clearInterval((el as any).__vueReize__)

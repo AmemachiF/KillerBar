@@ -6,7 +6,8 @@
       </b-col>
       <b-col>
         <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
-        <ChartCard ref="chartCard" :charts="charts" />
+        <ChartCard id="chartCard" ref="chartCard" :charts="charts" />
+        <ChartCard id="chartCardCaptain" ref="chartCardCaptain" :charts="chartsCaptain" />
       </b-col>
     </b-row>
   </b-container>
@@ -19,15 +20,27 @@ import { Chart } from '~/components/ChartCard.vue'
 
 export default Vue.extend({
   data () {
+    const chartsOptions = {
+      grid: {
+        left: '15%',
+        right: '13%',
+        top: 40,
+        bottom: 20
+      }
+    }
     const charts: Chart[] = [
       {
         id: 'chartTotal',
-        seriesName: '关注总量/每十分钟'
+        seriesName: '关注总量/每十分钟',
+        options: chartsOptions
       },
       {
         id: 'chartIncrease',
-        seriesName: '关注增量/每十分钟'
-      },
+        seriesName: '关注增量/每十分钟',
+        options: chartsOptions
+      }
+    ]
+    const chartsCaptain: Chart[] = [
       {
         id: 'chartCaptainTotal',
         seriesName: '大航海总量/每天'
@@ -37,9 +50,6 @@ export default Vue.extend({
         seriesName: '大航海增量/每天'
       }
     ]
-    const initUpdateTime:Array<string> = []
-    const initChartIncreaseData:Array<string> = []
-    const initChartTotalData:Array<string> = []
     return {
       bossKeys: [
         { key: 'name', title: '姓名' },
@@ -55,9 +65,7 @@ export default Vue.extend({
       boss: {},
       slide: 0,
       charts,
-      chartIncreaseData: initChartIncreaseData,
-      chartTotalData: initChartTotalData,
-      updateTime: initUpdateTime
+      chartsCaptain
     }
   },
   created () {
@@ -85,11 +93,12 @@ export default Vue.extend({
       this.$axios.get('https://api.amemachif.com:2333/follower')
         .then((res) => {
           if (res.data.code === 20000) {
+            const charts = this.charts
             const follower = res.data.data
             // 数据处理
             const followerLength = follower.length - 1
-            const chartIncrease = this.charts.find(p => p.id === 'chartIncrease')!
-            const chartTotal = this.charts.find(p => p.id === 'chartTotal')!
+            const chartIncrease = charts.find(p => p.id === 'chartIncrease')!
+            const chartTotal = charts.find(p => p.id === 'chartTotal')!
             const chartIncreaseData: string[] = []
             const chartTotalData: string[] = []
             const updateTime: string[] = []
@@ -104,7 +113,7 @@ export default Vue.extend({
             chartTotal.chartData = chartTotalData
             chartIncrease.xAxisData = updateTime
             chartTotal.xAxisData = updateTime
-            this.updateChart()
+            this.updateChart(charts)
           }
         })
         .catch((_) => {
@@ -114,11 +123,12 @@ export default Vue.extend({
       this.$axios.get('https://api.amemachif.com:2333/captain')
         .then((res) => {
           if (res.data.code === 20000) {
+            const charts = this.chartsCaptain
             const captain = res.data.data
             // 数据处理
             const captainLength = captain.length - 1
-            const chartCaptainIncrease = this.charts.find(p => p.id === 'chartCaptainIncrease')!
-            const chartCaptainTotal = this.charts.find(p => p.id === 'chartCaptainTotal')!
+            const chartCaptainIncrease = charts.find(p => p.id === 'chartCaptainIncrease')!
+            const chartCaptainTotal = charts.find(p => p.id === 'chartCaptainTotal')!
             const chartIncreaseData: string[] = []
             const chartTotalData: string[] = []
             const updateTime: string[] = []
@@ -126,21 +136,21 @@ export default Vue.extend({
               const preFollower = captain[key - 1]
               chartIncreaseData.push((captain[key].number - preFollower.number).toString())
               chartTotalData.push(captain[key].number)
-              const time = moment(captain[key].update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+              const time = moment(captain[key].update_time * 1000).format('YYYY-MM-DD')
               updateTime.push(time)
             }
             chartCaptainIncrease.chartData = chartIncreaseData
             chartCaptainTotal.chartData = chartTotalData
             chartCaptainIncrease.xAxisData = updateTime
             chartCaptainTotal.xAxisData = updateTime
-            this.updateChart()
+            this.updateChart(charts)
           }
         })
         .catch((_) => {
         })
     },
-    updateChart () {
-      this.charts.forEach((chart) => {
+    updateChart (charts: Chart[]) {
+      charts.forEach((chart) => {
         chart.obj?.setOption({
           xAxis: {
             data: chart.xAxisData
@@ -157,7 +167,8 @@ export default Vue.extend({
       return key in value ? value[key] : defaults
     },
     chartResize () {
-      (this.$refs.chartCard as any)?.chartResize()
+      (this.$refs.chartCard as any)?.chartResize();
+      (this.$refs.chartCardCaptain as any)?.chartResize()
     }
   }
 })
