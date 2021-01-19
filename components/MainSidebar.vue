@@ -3,15 +3,15 @@
     <nly-sidebar-brand to="/">
       <!-- TODO: Image src -->
       <b-img-lazy
-        src="http://amemachif.com/static/img/logo.b66abb45.png"
-        class="brand-image img-circle elevation-3"
+        src="/icon.png"
+        class="brand-image img-circle"
       />
       <nly-sidebar-brandtext weight>
         Killer Bar
       </nly-sidebar-brandtext>
     </nly-sidebar-brand>
     <nly-sidebar>
-      <nly-sidebar-nav class="mt-2" legacy flat child-indent>
+      <nly-sidebar-nav class="mt-2" brand-size="sm-2" legacy flat child-indent>
         <nly-sidebar-nav-item icon="nav-icon fas fa-tachometer-alt" to="/">
           档案
         </nly-sidebar-nav-item>
