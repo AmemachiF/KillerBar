@@ -69,8 +69,7 @@ export default Vue.extend({
 
 <style lang="css" scope>
 body {
-  /* TODO: image url */
-  background-image: url('http://amemachif.com/static/img/bg.2c9052ee.jpg');
+  background-image: url('~assets/bg.jpg');
   background-repeat: no-repeat;
   background-attachment: fixed;
   background-size: cover;

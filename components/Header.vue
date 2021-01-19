@@ -65,4 +65,15 @@ export default Vue.extend({
 ol.breadcrumb {
   background-color: transparent;
 }
+
+@media (min-width: 768px) {
+  body:not(.sidebar-mini-md) .content-wrapper,
+  body:not(.sidebar-mini-md) .main-footer,
+  body:not(.sidebar-mini-md) .main-header,
+  .sidebar-mini-md .content-wrapper,
+  .sidebar-mini-md .main-footer,
+  .sidebar-mini-md .main-header {
+    margin-left: 200px !important;
+  }
+}
 </style>
