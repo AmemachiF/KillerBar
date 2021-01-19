@@ -22,6 +22,26 @@
 <script lang="ts">
 import Vue from 'vue'
 
+Vue.directive('resize', {
+  bind (el, binding) {
+    let width: string | undefined = ''
+    let height: string | undefined = ''
+    function get () {
+      const style = document.defaultView?.getComputedStyle(el)
+      if (width !== style?.width || height !== style?.height) {
+        binding.value({ width, height })
+      }
+      width = style?.width
+      height = style?.height
+    }
+
+    (el as any).__vueReize__ = setInterval(get, 10)
+  },
+  unbind (el) {
+    clearInterval((el as any).__vueReize__)
+  }
+})
+
 export default Vue.extend({
   data () {
     return {
