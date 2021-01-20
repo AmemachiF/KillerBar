@@ -59,10 +59,8 @@ export default Vue.extend({
       this.playingPlayed = 0
       this.playingSrc = v.src
       const audio = this.$refs.audio as any
-      console.log(audio)
       audio.src = v.src
       audio.load()
-      // audio.play()
     },
     progress (event: any) {
       const audio = event.target
