@@ -1,5 +1,7 @@
 <template>
-  <div />
+  <b-container fluid>
+    <NoticeCard />
+  </b-container>
 </template>
 
 <script lang="ts">

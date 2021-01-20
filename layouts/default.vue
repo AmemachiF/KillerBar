@@ -3,13 +3,7 @@
     <Header :route-names="routeNames" />
     <MainSidebar />
     <nly-content-wrapper>
-      <nly-content-header>
-        <b-container fluid class="text-center">
-          <fa icon="wrench" class="wrench position-relative" />
-          施工中
-        </b-container>
-      </nly-content-header>
-      <nly-content>
+      <nly-content style="padding-top: 15px">
         <Nuxt />
       </nly-content>
     </nly-content-wrapper>

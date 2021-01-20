@@ -3,12 +3,13 @@
     <b-row>
       <b-col>
         <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" image="http://amemachif.com/static/img/Amemachi_Hanken.683544ef.png" />
+        <NewsCard :news="news" />
       </b-col>
       <b-col>
         <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
-        <NewsCard :news="news" />
         <ChartCard id="chartCard" ref="chartCard" :charts="charts" />
         <ChartCard id="chartCardCaptain" ref="chartCardCaptain" :charts="chartsCaptain" />
+        <ChartCard id="chartFollowerDay" ref="chartFollowerDay" :charts="chartsFollowerDay" />
       </b-col>
     </b-row>
   </b-container>
@@ -24,8 +25,8 @@ export default Vue.extend({
   data () {
     const chartsOptions = {
       grid: {
-        left: '15%',
-        right: '13%',
+        left: '10%',
+        right: '0',
         top: 40,
         bottom: 20
       }
@@ -45,11 +46,25 @@ export default Vue.extend({
     const chartsCaptain: Chart[] = [
       {
         id: 'chartCaptainTotal',
-        seriesName: '大航海总量/每天'
+        seriesName: '大航海总量/每天',
+        options: chartsOptions
       },
       {
         id: 'chartCaptainIncrease',
-        seriesName: '大航海增量/每天'
+        seriesName: '大航海增量/每天',
+        options: chartsOptions
+      }
+    ]
+    const chartsFollowerDay: Chart[] = [
+      {
+        id: 'chartFollowerDayTotal',
+        seriesName: '关注总量/每天',
+        options: chartsOptions
+      },
+      {
+        id: 'chartFollowerDayIncrease',
+        seriesName: '关注增量/每天',
+        options: chartsOptions
       }
     ]
     const news: News[] = []
@@ -69,6 +84,7 @@ export default Vue.extend({
       slide: 0,
       charts,
       chartsCaptain,
+      chartsFollowerDay,
       news
     }
   },
@@ -76,6 +92,7 @@ export default Vue.extend({
     this.fetchBoss()
     this.fetchNews()
     this.fetchFollower()
+    this.fetchFollowerDay()
     this.fetchCaptain()
   },
   methods: {
@@ -152,6 +169,36 @@ export default Vue.extend({
         .catch((_) => {
         })
     },
+    fetchFollowerDay () {
+      this.$axios.get('https://api.amemachif.com:2333/follower_day')
+        .then((res) => {
+          if (res.data.code === 20000) {
+            const charts = this.chartsFollowerDay
+            const follower = res.data.data
+            // 数据处理
+            const followerDayLength = follower.length - 1
+            const chartFollowerDayIncrease = charts.find(p => p.id === 'chartFollowerDayIncrease')!
+            const chartFollowerDayTotal = charts.find(p => p.id === 'chartFollowerDayTotal')!
+            const chartIncreaseData: string[] = []
+            const chartTotalData: string[] = []
+            const updateTime: string[] = []
+            for (let key = 1; key < followerDayLength; key += 1) {
+              const preFollowerDay = follower[key - 1]
+              chartIncreaseData.push((follower[key].number - preFollowerDay.number).toString())
+              chartTotalData.push(follower[key].number)
+              const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD')
+              updateTime.push(time)
+            }
+            chartFollowerDayIncrease.chartData = chartIncreaseData
+            chartFollowerDayTotal.chartData = chartTotalData
+            chartFollowerDayIncrease.xAxisData = updateTime
+            chartFollowerDayTotal.xAxisData = updateTime
+            this.updateChart(charts)
+          }
+        })
+        .catch((_) => {
+        })
+    },
     fetchNews () {
       this.$axios.get('https://api.amemachif.com:2333/news')
         .then((res) => {
@@ -204,6 +251,7 @@ export default Vue.extend({
     chartResize () {
       (this.$refs.chartCard as any)?.chartResize();
       (this.$refs.chartCardCaptain as any)?.chartResize()
+      (this.$refs.chartFollowerDay as any)?.chartResize()
     }
   }
 })
