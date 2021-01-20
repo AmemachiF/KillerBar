@@ -50,7 +50,7 @@
         </nly-sidebar-nav-item>
       </nly-sidebar-nav>
     </nly-sidebar>
-    <b-img-lazy id="bottom-image" src="~/assets/starteye.png" class="position-absolute w-100" />
+    <b-img-lazy id="bottom-image" src="~/assets/stareye.png" class="position-absolute w-100" />
   </nly-sidebar-container>
 </template>
 
@@ -80,7 +80,7 @@ export default Vue.extend({})
 }
 .layout-navbar-fixed .wrapper .main-sidebar:hover .brand-link ,
 .layout-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
-  .layout-xl-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-xl-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
 .layout-xl-navbar-fixed .wrapper .brand-link ,
 .layout-navbar-fixed .wrapper .brand-link ,
 .layout-sm-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,

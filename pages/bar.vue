@@ -6,39 +6,44 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { Voice } from '~/components/VoiceCard.vue'
+import { VoiceGroup } from '~/components/VoiceCard.vue'
 
 export default Vue.extend({
   data () {
-    const audio: Voice[] = [
-      {
-        text: '一键mua',
-        src: 'http://amemachif.com/static/media/mua.a1eaf3d4.aac'
-      },
-      {
-        text: '一键认爹',
-        src: 'http://amemachif.com/static/media/jiaobaba.60c344c1.aac'
-      },
-      {
-        text: '一键吸脑',
-        src: 'http://amemachif.com/static/media/xinao.5cfb2538.aac'
-      },
-      {
-        text: '一键牛逼',
-        src: 'http://amemachif.com/static/media/niubi.cd4c14f5.aac'
-      },
-      {
-        text: '一键恶心',
-        src: 'http://amemachif.com/static/media/exin.1499d557.aac'
-      },
-      {
-        text: '一键很会',
-        src: 'http://amemachif.com/static/media/henhui.7e5b63b5.aac'
-      }
-    ]
+    const audio: VoiceGroup[] = []
 
     return {
       audio
+    }
+  },
+  mounted () {
+    this.fetchAudios()
+  },
+  methods: {
+    fetchAudios () {
+      this.$axios.get('https://api.amemachif.com:2333/audio')
+        .then((res) => {
+          if (res.data.code === 20000) {
+            const audioBase = 'https://api.amemachif.com:2333/static/'
+            const data = res.data.data
+            data.forEach((g: any) => {
+              const vg: VoiceGroup = {
+                name: g.group,
+                voices: []
+              }
+              g.content.forEach((a: any) => {
+                vg.voices.push({
+                  text: a.text,
+                  src: new URL(a.src, audioBase).toString()
+                })
+              })
+              this.audio.push(vg)
+            })
+          }
+        })
+        .catch((_) => {
+          // TODO: Catch
+        })
     }
   }
 })
