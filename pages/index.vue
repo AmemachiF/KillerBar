@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-row>
       <b-col>
-        <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" image="http://amemachif.com/static/img/Amemachi_Hanken.683544ef.png" />
+        <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" image="~assets/Amemachi_Hanken.png" />
         <NewsCard :news="news" />
       </b-col>
       <b-col>
