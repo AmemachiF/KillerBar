@@ -3,7 +3,9 @@
     <div class="d-none d-sm-inline">
       @{{ date() }}
     </div>
-    <div class="float-right d-none d-sm-inline" />
+    <div class="float-right d-none d-sm-inline">
+      Version <strong>{{ version }}</strong>
+    </div>
   </nly-wrapper-footer>
 </template>
 
@@ -12,7 +14,8 @@ import Vue from 'vue'
 export default Vue.extend({
   data () {
     return {
-      dateFrom: 2020
+      dateFrom: 2020,
+      version: process.env.APP_VERSION ?? 'SNAPSHOT'
     }
   },
   methods: {
