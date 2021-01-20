@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="voiceCard">
     <b-card v-for="a in voices" :key="a.name" :header="a.name">
-      <b-button v-for="v in a.voices" :key="v.text" class="text-nowrap m-1" @click="playAudio(v)">
-        <b-progress v-if="playingSrc === v.src" class="" height="1px" max="100">
-          <b-progress-bar :value="playingPlayed" variant="primary" />
-          <b-progress-bar :value="playingLoaded - playingPlayed" variant="secondary" />
-        </b-progress>
-        {{ v.text }}
+      <b-button v-for="v in a.voices" :key="v.text" class="text-nowrap m-1 position-relative" :class="showProgress(v) ? 'button-trans' : ''" @click="playAudio(v)">
+        <div v-if="showProgress(v)" class="voice-progress">
+          <b-progress max="100" height="100%">
+            <b-progress-bar :value="playingPlayed" variant="primary" />
+            <b-progress-bar :value="playingLoaded - playingPlayed" variant="secondary" />
+          </b-progress>
+        </div>
+        <div>{{ v.text }}</div>
       </b-button>
     </b-card>
     <audio
@@ -51,6 +53,8 @@ export default Vue.extend({
       playingPlayed: 0
     }
   },
+  computed: {
+  },
   mounted () {
   },
   methods: {
@@ -82,7 +86,27 @@ export default Vue.extend({
       this.playingSrc = ''
       this.playingLoaded = 0
       this.playingPlayed = 0
+    },
+    showProgress (v: any) {
+      return this.playingSrc === v.src
     }
   }
 })
 </script>
+
+<style scoped>
+.voice-progress {
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: -1;
+}
+
+.voiceCard .button-trans {
+  opacity: 0.9;
+  color: black;
+}
+</style>
