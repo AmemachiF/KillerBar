@@ -1,15 +1,15 @@
 <template>
-  <b-card header="这你不点一下？">
-    <b-row>
-      <b-col>
-        <b-button-group>
-          <b-button v-for="v in voices" :key="v.src" @click="playAudio(v)">
+  <div>
+    <b-card v-for="group in voices" :key="group.content" :header="group.group">
+      <b-row>
+        <b-col>
+          <b-button v-for="v in group.content" :key="v.src" @click="playAudio(v)" style="margin: 0 10px 10px 0">
             {{ v.text }}
           </b-button>
-        </b-button-group>
-      </b-col>
-    </b-row>
-  </b-card>
+        </b-col>
+      </b-row>
+    </b-card>
+</div>
 </template>
 
 <script lang="ts">
@@ -36,7 +36,7 @@ export default Vue.extend({
   },
   methods: {
     playAudio (v: Voice) {
-      audio.src = v.src
+      audio.src = 'https://api.amemachif.com:2333/static/' + v.src
       audio.play()
     }
   }
