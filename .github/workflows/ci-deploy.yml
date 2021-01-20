@@ -61,10 +61,10 @@ jobs:
           VERSION: 'Release'
 
       - name: Deploy FTP 📂
-            uses: SamKirkland/FTP-Deploy-Action@4.0.0
-            with:
-              server: ${{ secrets.FTP_SERVER }}
-              username: ${{ secrets.FTP_USERNAME }}
-              password: ${{ secrets.FTP_PASSWORD }}
-              local-dir: './dist/'
-              server-dir: './wwwroot/'
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: './dist/'
+          server-dir: './wwwroot/'
