@@ -1,4 +1,4 @@
-name: ci-deploy
+name: ci-deploy-ftp
 
 on:
   push:
@@ -49,10 +49,10 @@ jobs:
           VERSION: 'Release'
 
       - name: Deploy FTP 📂
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: sebastianpopp/ftp-action@releases/v2
         with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
+          host: ${{ secrets.FTP_SERVER }}
+          user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: './dist/'
-          server-dir: './wwwroot/'
+          localDir: './dist/'
+          remoteDir: './wwwroot/'
