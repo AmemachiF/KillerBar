@@ -249,9 +249,10 @@ export default Vue.extend({
       return key in value ? value[key] : defaults
     },
     chartResize () {
-      (this.$refs.chartCard as any)?.chartResize();
-      (this.$refs.chartCardCaptain as any)?.chartResize()
-      (this.$refs.chartFollowerDay as any)?.chartResize()
+      // NOTICE: 这里除了最后一行，每行最后需要加分号，否则会报错找不到chartResize
+      (this.$refs.chartCard as any)?.chartResize(); // <--
+      (this.$refs.chartCardCaptain as any)?.chartResize(); // <--
+      (this.$refs.chartFollowerDay as any)?.chartResize() // <--
     }
   }
 })
