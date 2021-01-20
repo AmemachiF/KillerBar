@@ -80,7 +80,7 @@ export default Vue.extend({})
 }
 .layout-navbar-fixed .wrapper .main-sidebar:hover .brand-link ,
 .layout-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
-  .layout-xl-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
+.layout-xl-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
 .layout-xl-navbar-fixed .wrapper .brand-link ,
 .layout-navbar-fixed .wrapper .brand-link ,
 .layout-sm-navbar-fixed .wrapper.sidebar-collapse .main-sidebar:hover .brand-link ,
