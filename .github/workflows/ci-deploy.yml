@@ -42,7 +42,7 @@ jobs:
       - name: Run linter 👀
         run: yarn lint
 
-      - name: Generate
+      - name: Generate GitHub pages
         run: yarn generate
         env:
           APP_ROUTER_BASE: '/Killer_Bar.pages/'
@@ -53,6 +53,12 @@ jobs:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
           external_repository: AmemachiF/Killer_Bar.pages
           publish_dir: ./dist
+
+      - name: Generate FTP
+        run: yarn generate
+        env:
+          APP_ROUTER_BASE: '/'
+          VERSION: 'Release'
 
       - name: Deploy FTP 📂
             uses: SamKirkland/FTP-Deploy-Action@4.0.0
