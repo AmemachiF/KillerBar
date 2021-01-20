@@ -62,6 +62,10 @@ export default Vue.extend({
 </script>
 
 <style lang="css" scope>
+html {
+  cursor: url('~assets/stareye.png');
+}
+
 body {
   background-image: url('~assets/bg.jpg');
   background-repeat: no-repeat;
@@ -91,5 +95,24 @@ body {
   100% {
     transform:rotate(0deg);
   }
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #f6f6f6;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb {
+  background: #aaa;
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #747474;
+}
+::-webkit-scrollbar-corner {
+  background: #f6f6f6;
 }
 </style>

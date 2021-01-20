@@ -6,28 +6,43 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import { VoiceGroup } from '~/components/VoiceCard.vue'
 
 export default Vue.extend({
   data () {
+    const audio: VoiceGroup[] = []
+
     return {
-      audio: {}
+      audio
     }
   },
   mounted () {
-    this.fetchAudio()
+    this.fetchAudios()
   },
   methods: {
-    fetchAudio () {
+    fetchAudios () {
       this.$axios.get('https://api.amemachif.com:2333/audio')
         .then((res) => {
           if (res.data.code === 20000) {
-            this.audio = res.data.data
-          } else {
-            this.audio = {}
+            const audioBase = 'https://api.amemachif.com:2333/static/'
+            const data = res.data.data
+            data.forEach((g: any) => {
+              const vg: VoiceGroup = {
+                name: g.group,
+                voices: []
+              }
+              g.content.forEach((a: any) => {
+                vg.voices.push({
+                  text: a.text,
+                  src: new URL(a.src, audioBase).toString()
+                })
+              })
+              this.audio.push(vg)
+            })
           }
         })
         .catch((_) => {
-          this.audio = {}
+          // TODO: Catch
         })
     }
   }
