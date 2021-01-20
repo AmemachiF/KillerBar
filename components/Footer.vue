@@ -16,7 +16,8 @@ export default Vue.extend({
     return {
       dateFrom: 2020,
       version: process.env.appVersion ?? 'SNAPSHOT',
-      versionUrl: process.env.appVersionUrl ?? ''
+      versionUrl: (process.env.appRevision && process.env.appRevision !== '')
+        ? new URL(process.env.appRevision, 'https://github.com/AmemachiF/Killer_Bar/tree/') : ''
     }
   },
   methods: {

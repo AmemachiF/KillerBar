@@ -38,7 +38,8 @@ const config: NuxtConfig = {
 
   env: {
     appVersion: process.env.APP_VERSION ?? 'SNAPSHOT',
-    appVersionUrl: process.env.APP_VERSION_URL ?? ''
+    appVersionUrl: process.env.APP_VERSION_URL ?? '',
+    appRevision: process.env.APP_REVISION ?? ''
   },
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
