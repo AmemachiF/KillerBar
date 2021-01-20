@@ -36,6 +36,11 @@ const config: NuxtConfig = {
     base: routeBase ?? '/'
   },
 
+  env: {
+    appVersion: process.env.APP_VERSION ?? 'SNAPSHOT',
+    appVersionUrl: process.env.APP_VERSION_URL ?? ''
+  },
+
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: true,
 
