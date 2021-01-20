@@ -3,7 +3,6 @@
     <b-card-text>
       <b-row>
         <b-col v-if="image" cols="5" class="m-0">
-          <!-- TODO: Image src -->
           <b-img-lazy :src="image" fluid />
         </b-col>
         <b-col id="bossInfo" class="m-0">
