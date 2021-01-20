@@ -4,7 +4,7 @@
       @{{ date() }}
     </div>
     <div class="float-right d-none d-sm-inline">
-      Version <strong>{{ version }}</strong>
+      Version <strong v-if="versionUrl !== ''"><b-link :href="versionUrl">{{ version }}</b-link></strong><strong v-else>{{ version }}</strong>
     </div>
   </nly-wrapper-footer>
 </template>
@@ -15,7 +15,8 @@ export default Vue.extend({
   data () {
     return {
       dateFrom: 2020,
-      version: process.env.APP_VERSION ?? 'SNAPSHOT'
+      version: process.env.appVersion ?? 'SNAPSHOT',
+      versionUrl: process.env.appVersionUrl ?? ''
     }
   },
   methods: {
