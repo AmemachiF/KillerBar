@@ -4,7 +4,11 @@
       @{{ date() }}
     </div>
     <div class="float-right d-none d-sm-inline">
-      Version <strong v-if="versionUrl !== ''"><b-link :href="versionUrl">{{ version }}</b-link></strong><strong v-else>{{ version }}</strong>
+      <span>Version</span>
+      <strong v-if="versionUrl !== ''">
+        <b-link :href="versionUrl" target="_blank" rel="noopener">{{ version }}</b-link>
+      </strong>
+      <strong v-else>{{ version }}</strong>
     </div>
   </nly-wrapper-footer>
 </template>

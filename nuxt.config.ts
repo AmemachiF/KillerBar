@@ -18,7 +18,7 @@ const config: NuxtConfig = {
       { name: 'referrer', content: 'no-referrer' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: (routeBase ?? '') + '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: (routeBase ?? '/') + 'favicon.ico' }
     ]
   },
 
