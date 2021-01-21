@@ -20,6 +20,9 @@ const config: NuxtConfig = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: (routeBase ?? '/') + 'favicon.ico' }
+    ],
+    script: [
+      { src: 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js' }
     ]
   },
 
