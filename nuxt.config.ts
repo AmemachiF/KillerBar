@@ -1,4 +1,5 @@
 import { NuxtConfig } from '@nuxt/types'
+require('dotenv').config()
 
 const routeBase = process.env.APP_ROUTER_BASE
 
@@ -29,7 +30,8 @@ const config: NuxtConfig = {
   // Plugins to run before rendering page (https://go.nuxtjs.dev/config-plugins)
   plugins: [
     // { src: '~plugins/FontAwesome', mode: 'all' },
-    { src: '~plugins/NlyAdminlteVue.js', mode: 'all' }
+    { src: '~plugins/NlyAdminlteVue', mode: 'all' },
+    { src: '~plugins/LeanCloud', mode: 'all' }
   ],
 
   router: {
@@ -39,7 +41,10 @@ const config: NuxtConfig = {
   env: {
     appVersion: process.env.APP_VERSION ?? 'SNAPSHOT',
     appVersionUrl: process.env.APP_VERSION_URL ?? '',
-    appRevision: process.env.APP_REVISION ?? ''
+    appRevision: process.env.APP_REVISION ?? '',
+    leanCloudAppId: process.env.LEANCLOUD_APP_ID ?? '',
+    leanCloudAppKey: process.env.LEANCLOUD_APP_KEY ?? '',
+    leanCloudServerURL: process.env.LEANCLOUD_SERVER_URL ?? ''
   },
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
@@ -57,7 +62,8 @@ const config: NuxtConfig = {
         brands: true
       }
     }],
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/dotenv'
   ],
 
   // Modules (https://go.nuxtjs.dev/config-modules)
