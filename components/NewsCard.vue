@@ -107,4 +107,10 @@ export default Vue.extend({
 .newsAspect > .card-body{
   padding: 0;
 }
+
+.newsAspect .carousel-control-next,
+.newsAspect .carousel-control-prev{
+  padding-left: 40px;
+  padding-right: 40px;
+}
 </style>

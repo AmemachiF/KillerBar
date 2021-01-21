@@ -2,7 +2,7 @@
   <b-container fluid>
     <b-row>
       <!-- <b-card-group v-for="b in brothers" :key="b.id" deck> -->
-      <b-col v-for="b in brothers" :key="b.id" cols="4">
+      <b-col v-for="b in brothers" :key="b.id" xl="4" lg="6" md="12">
         <BrotherCard :brother="b" />
       </b-col>
     <!-- </b-card-group> -->
