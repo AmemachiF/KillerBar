@@ -46,6 +46,10 @@ jobs:
         run: yarn generate
         env:
           APP_ROUTER_BASE: '/Killer_Bar.pages/'
+          APP_VERSION: 'SNAPSHOT-master'
+          LEANCLOUD_APP_ID: ${{ secrets.LEANCLOUD_APP_ID }}
+          LEANCLOUD_APP_KEY: ${{ secrets.LEANCLOUD_APP_KEY }}
+          LEANCLOUD_SERVER_URL: ${{ secrets.LEANCLOUD_SERVER_URL }}
 
       - name: Deploy GitHub pages
         uses: peaceiris/actions-gh-pages@v3
