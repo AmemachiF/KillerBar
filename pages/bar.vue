@@ -33,6 +33,7 @@ export default Vue.extend({
               }
               g.content.forEach((a: any) => {
                 vg.voices.push({
+                  filename: a.src,
                   text: a.text,
                   src: new URL(a.src, audioBase).toString()
                 })

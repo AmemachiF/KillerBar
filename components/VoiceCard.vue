@@ -1,14 +1,19 @@
 <template>
   <div class="voiceCard">
     <b-card v-for="a in voices" :key="a.name" :header="a.name">
-      <b-button v-for="v in a.voices" :key="v.text" class="text-nowrap m-1 position-relative" :class="showProgress(v) ? 'button-trans' : ''" @click="playAudio(v)">
+      <b-button v-for="v in a.voices" :key="v.filename" class="text-nowrap m-1 position-relative" :class="showProgress(v) ? 'button-trans' : ''" @click="playAudio(v)">
         <div v-if="showProgress(v)" class="voice-progress">
           <b-progress max="100" height="100%">
             <b-progress-bar :value="playingPlayed" variant="primary" />
             <b-progress-bar :value="playingLoaded - playingPlayed" variant="secondary" />
           </b-progress>
         </div>
-        <div>{{ v.text }}</div>
+        <div>
+          <span>{{ v.text }}</span>
+          <b-badge variant="light" pill class="badge-corner">
+            {{ getClick(v.filename, 'clickPV') }}
+          </b-badge>
+        </div>
       </b-button>
     </b-card>
     <audio
@@ -26,8 +31,10 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import AV from 'leancloud-storage'
 
 export declare type Voice = {
+  filename: string,
   src: string,
   text: string
 }
@@ -35,6 +42,11 @@ export declare type Voice = {
 export declare type VoiceGroup = {
   name: string,
   voices: Voice[]
+}
+
+declare type VoiceClick = {
+  name: string,
+  clickPV?: number
 }
 
 export default Vue.extend({
@@ -47,24 +59,31 @@ export default Vue.extend({
     }
   },
   data () {
+    const voiceClicks: VoiceClick[] = []
     return {
-      playingSrc: '',
+      playingName: '',
       playingLoaded: 0,
-      playingPlayed: 0
+      playingPlayed: 0,
+      voiceClicks
     }
   },
-  computed: {
+  watch: {
+    voices () {
+      this.fetchClick()
+    }
   },
   mounted () {
+    this.fetchClick()
   },
   methods: {
     playAudio (v: Voice) {
       this.playingLoaded = 0
       this.playingPlayed = 0
-      this.playingSrc = v.src
+      this.playingName = v.filename
       const audio = this.$refs.audio as any
       audio.src = v.src
       audio.load()
+      this.incClick(v)
     },
     progress (event: any) {
       const audio = event.target
@@ -83,12 +102,71 @@ export default Vue.extend({
       this.playingPlayed = 100 * audio.currentTime / audio.duration
     },
     ended () {
-      this.playingSrc = ''
+      this.playingName = ''
       this.playingLoaded = 0
       this.playingPlayed = 0
     },
     showProgress (v: any) {
-      return this.playingSrc === v.src
+      return this.playingName === v.filename
+    },
+    incClick (v: Voice) {
+      const query = new AV.Query('Audio')
+      query.equalTo('name', v.filename)
+      query.first().then((audio) => {
+        if (audio) {
+          if (audio instanceof AV.Object) {
+            audio.increment('click_pv')
+          } else {
+            return
+          }
+        } else {
+          audio = new AV.Object('Audio')
+          audio.set('name', v.filename)
+          audio.set('click_pv', 1)
+        }
+        audio.save(null, {
+          fetchWhenSave: true
+        }).then((a) => {
+          const click = this.voiceClicks.find(p => p.name === v.filename)
+          const name = a.get('name')
+          const clickPV = a.get('click_pv')
+          if (click) {
+            click.clickPV = clickPV
+          } else {
+            this.voiceClicks.push({
+              name,
+              clickPV
+            })
+          }
+        })
+      })
+    },
+    fetchClick () {
+      const query = new AV.Query('Audio')
+      // console.log(this.voices)
+      query.find().then((audios) => {
+        audios.forEach((a) => {
+          const name = a.get('name')
+          const clickPV = a.get('click_pv')
+          const click = this.voiceClicks.find(p => p.name === name)
+          if (click) {
+            click.clickPV = clickPV
+          } else {
+            this.voiceClicks.push({
+              name,
+              clickPV
+            })
+          }
+        })
+      })
+    },
+    getClick (name: string, key: keyof VoiceClick) {
+      const click = this.voiceClicks.find(p => p.name === name)
+      if (click) {
+        return key in click ? click[key] : 0
+      } else {
+        return 0
+      }
     }
   }
 })
@@ -108,5 +186,13 @@ export default Vue.extend({
 .voiceCard .button-trans {
   opacity: 0.9;
   color: black;
+}
+
+.badge-corner {
+  position: absolute;
+  right: -0.5em;
+  top: -0.5em;
+  background-color: #4d5b6d !important;
+  color: white !important;
 }
 </style>
