@@ -25,8 +25,8 @@ export default Vue.extend({
   data () {
     const chartsOptions = {
       grid: {
-        left: '10%',
-        right: '0',
+        left: 50,
+        right: 0,
         top: 40,
         bottom: 20
       }
@@ -126,7 +126,7 @@ export default Vue.extend({
               const preFollower = follower[key - 1]
               chartIncreaseData.push((follower[key].number - preFollower.number).toString())
               chartTotalData.push(follower[key].number)
-              const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
+              const time = moment(follower[key].update_time * 1000).format('MM-DD HH:mm:ss')
               updateTime.push(time)
             }
             chartIncrease.chartData = chartIncreaseData
@@ -269,5 +269,9 @@ export default Vue.extend({
 .carousel-inner {
   width: 100%;
   height: 100%;
+}
+
+.carousel-control-next, .carousel-control-prev{
+  width: 5%;
 }
 </style>
