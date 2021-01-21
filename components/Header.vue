@@ -50,7 +50,7 @@ export default Vue.extend({
       const curr = this.routeNames[currName]
       const items = [
         {
-          text: 'Killer Bar',
+          text: '鲨手酒吧',
           to: '/'
         }
       ]
@@ -74,6 +74,16 @@ ol.breadcrumb {
   .sidebar-mini-md .main-footer,
   .sidebar-mini-md .main-header {
     margin-left: 200px !important;
+  }
+}
+@media (max-width: 991.98px){
+  body:not(.sidebar-mini-md) .content-wrapper,
+  body:not(.sidebar-mini-md) .content-wrapper:before,
+  body:not(.sidebar-mini-md) .main-footer,
+  body:not(.sidebar-mini-md) .main-footer:before,
+  body:not(.sidebar-mini-md) .main-header,
+  body:not(.sidebar-mini-md) .main-header:before {
+    margin-left: 0 !important;
   }
 }
 </style>

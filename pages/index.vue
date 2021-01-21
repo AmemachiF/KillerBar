@@ -1,11 +1,11 @@
 <template>
   <b-container fluid>
     <b-row>
-      <b-col>
+      <b-col xl="6" lg="12">
         <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" :image="require('~/assets/Amemachi_Hanken.png')" />
         <NewsCard :news="news" />
       </b-col>
-      <b-col>
+      <b-col xl="6" lg="12">
         <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
         <ChartCard id="chartCard" ref="chartCard" :charts="charts" />
         <ChartCard id="chartCardCaptain" ref="chartCardCaptain" :charts="chartsCaptain" />

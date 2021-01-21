@@ -1,5 +1,5 @@
 <template>
-  <div class="newsAspect overflow-hidden py-2">
+  <b-card class="newsAspect overflow-hidden py-2">
     <b-carousel
       controls
       img-height="100%"
@@ -45,7 +45,7 @@
     <b-modal id="newsPictureModal" hide-footer size="lg">
       <b-img-lazy :src="pictureModal.imgSrc" fluid-grow />
     </b-modal>
-  </div>
+  </b-card>
 </template>
 
 <script lang="ts">
@@ -102,5 +102,9 @@ export default Vue.extend({
   background-position: center;
   background-size: 1em 1em;
   padding: 1em;
+}
+
+.newsAspect > .card-body{
+  padding: 0;
 }
 </style>

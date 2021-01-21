@@ -2,6 +2,15 @@
   <nly-wrapper-footer>
     <div class="d-none d-sm-inline">
       @{{ date() }}
+      <span id="busuanzi_container_site_pv">
+        本酒吧累积接单
+        <span id="busuanzi_value_site_pv" />次
+      </span>
+      |
+      <span id="busuanzi_container_site_uv">
+        共有
+        <span id="busuanzi_value_site_uv" />个顾客下单
+      </span>
     </div>
     <div class="float-right d-none d-sm-inline">
       <span>Version</span>
