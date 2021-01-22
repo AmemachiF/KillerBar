@@ -3,6 +3,8 @@ require('dotenv').config()
 
 const routeBase = process.env.APP_ROUTER_BASE
 
+const websiteName = '鲨手酒吧'
+
 const config: NuxtConfig = {
   // Target (https://go.nuxtjs.dev/config-target)
   target: 'static',
@@ -11,7 +13,7 @@ const config: NuxtConfig = {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: '鲨手酒吧',
+    title: websiteName,
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -22,7 +24,7 @@ const config: NuxtConfig = {
       { rel: 'icon', type: 'image/x-icon', href: (routeBase ?? '/') + 'favicon.ico' }
     ],
     script: [
-      { src: 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js' }
+      { src: 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js', async: true, defer: true }
     ]
   },
 
@@ -87,6 +89,18 @@ const config: NuxtConfig = {
       }
     },
     https: true
+  },
+
+  pwa: {
+    meta: {
+      name: websiteName,
+      lang: 'zh'
+    },
+    manifeat: {
+      name: websiteName,
+      short_name: websiteName,
+      lang: 'zh'
+    }
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
