@@ -121,14 +121,14 @@ export default Vue.extend({
           }
         } else {
           audio = new AV.Object('Audio')
-          audio.set('name', v.filename)
+          audio.set('filename', v.filename)
           audio.set('click_pv', 1)
         }
         audio.save(null, {
           fetchWhenSave: true
         }).then((a) => {
           const click = this.voiceClicks.find(p => p.name === v.filename)
-          const name = a.get('name')
+          const name = a.get('filename')
           const clickPV = a.get('click_pv')
           if (click) {
             click.clickPV = clickPV
@@ -146,7 +146,7 @@ export default Vue.extend({
       // console.log(this.voices)
       query.find().then((audios) => {
         audios.forEach((a) => {
-          const name = a.get('name')
+          const name = a.get('filename')
           const clickPV = a.get('click_pv')
           const click = this.voiceClicks.find(p => p.name === name)
           if (click) {
