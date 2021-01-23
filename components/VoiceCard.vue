@@ -111,7 +111,7 @@ export default Vue.extend({
     },
     incClick (v: Voice) {
       const query = new AV.Query('Audio')
-      query.equalTo('name', v.filename)
+      query.equalTo('filename', v.filename)
       query.first().then((audio) => {
         if (audio) {
           if (audio instanceof AV.Object) {
