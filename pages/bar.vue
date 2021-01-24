@@ -6,7 +6,8 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import { VoiceGroup } from '~/components/VoiceCard.vue'
+import AV from 'leancloud-storage'
+import { VoiceGroup, Voice } from '~/components/VoiceCard.vue'
 
 export default Vue.extend({
   data () {
@@ -21,30 +22,51 @@ export default Vue.extend({
   },
   methods: {
     fetchAudios () {
-      this.$axios.get('https://api.amemachif.com:2333/audio')
-        .then((res) => {
-          if (res.data.code === 20000) {
-            const audioBase = 'https://api.amemachif.com:2333/static/'
-            const data = res.data.data
-            data.forEach((g: any) => {
-              const vg: VoiceGroup = {
-                name: g.group,
-                voices: []
-              }
-              g.content.forEach((a: any) => {
-                vg.voices.push({
-                  filename: a.src,
-                  text: a.text,
-                  src: new URL(a.src, audioBase).toString()
-                })
-              })
-              this.audio.push(vg)
+      const audioBase = 'http://qiniu.amemachif.ioit.pub/audio/'
+      const query = new AV.Query('Audio')
+      query.find().then((res) => {
+        res.forEach((a) => {
+          const g = this.audio.find(p => p.name === a.get('group'))
+          const v: Voice = {
+            filename: a.get('filename'),
+            src: new URL(a.get('name') + '.aac', audioBase).toString(),
+            text: a.get('text'),
+            clickPV: a.get('click_pv'),
+            obj: a.toFullJSON()
+          }
+          if (g) {
+            g.voices.push(v)
+          } else {
+            this.audio.push({
+              name: a.get('group'),
+              voices: [v]
             })
           }
         })
-        .catch((_) => {
-          // TODO: Catch
-        })
+      })
+      // this.$axios.get('https://api.amemachif.com:2333/audio')
+      //   .then((res) => {
+      //     if (res.data.code === 20000) {
+      //       const data = res.data.data
+      //       data.forEach((g: any) => {
+      //         const vg: VoiceGroup = {
+      //           name: g.group,
+      //           voices: []
+      //         }
+      //         g.content.forEach((a: any) => {
+      //           vg.voices.push({
+      //             filename: a.src,
+      //             text: a.text,
+      //             src: new URL(a.filename, audioBase).toString()
+      //           })
+      //         })
+      //         this.audio.push(vg)
+      //       })
+      //     }
+      //   })
+      //   .catch((_) => {
+      //     // TODO: Catch
+      //   })
     }
   }
 })
