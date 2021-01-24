@@ -1637,6 +1637,11 @@
   dependencies:
     "@types/node" "*"
 
+"@types/json-bigint@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/json-bigint/-/json-bigint-1.0.0.tgz#7a4726540cc6fe47cfa54b9b3022b89cf7fe1517"
+  integrity sha512-WW+0cfH3ovFN6ROV+p/Xfw36dT6s16hbXBYIG49PYw6+j6e+AkpqYccctgxwyicBmC8CZDBnPhOH94shFhXgHQ==
+
 "@types/json-schema@^7.0.3", "@types/json-schema@^7.0.4", "@types/json-schema@^7.0.5", "@types/json-schema@^7.0.6":
   version "7.0.6"
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.6.tgz#f4c7ec43e81b319a9815115031709f26987891f0"
@@ -2663,6 +2668,11 @@ big.js@^5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/big.js/-/big.js-5.2.2.tgz#65f0af382f578bcdc742bd9c281e9cb2d7768328"
   integrity sha512-vyL2OymJxmarO8gxMr0mhChsO9QGwhynfuu4+MHTAW6czfq9humCB7rKpUjDd9YUiDPU4mzpyupFSvOClAwbmQ==
+
+bignumber.js@^9.0.0:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-9.0.1.tgz#8d7ba124c882bfd8e43260c67475518d0689e4e5"
+  integrity sha512-IdZR9mh6ahOBv/hYGiXyVuyCetmGJhtYkqLBpTStdhEGjegpPlUawydyaF3pbIOFynJTpllEs+NP+CS9jKFLjA==
 
 binary-extensions@^1.0.0:
   version "1.13.1"
@@ -6553,6 +6563,13 @@ jsgrid@^1.5.3:
   version "1.5.3"
   resolved "https://registry.yarnpkg.com/jsgrid/-/jsgrid-1.5.3.tgz#b15fc426483153bee2b6b567312f675d92834a0d"
   integrity sha1-sV/EJkgxU77itrVnMS9nXZKDSg0=
+
+json-bigint@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/json-bigint/-/json-bigint-1.0.0.tgz#ae547823ac0cad8398667f8cd9ef4730f5b01ff1"
+  integrity sha512-SiPv/8VpZuWbvLSMtTDU8hEfrZWg/mH/nV/b4o0CYbSxu1UIQPLdwKOCIyLQX+VIPO5vrLX3i8qtqFyhdPSUSQ==
+  dependencies:
+    bignumber.js "^9.0.0"
 
 json-parse-better-errors@^1.0.1, json-parse-better-errors@^1.0.2:
   version "1.0.2"
