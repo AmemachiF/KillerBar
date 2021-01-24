@@ -91,7 +91,6 @@ export default Vue.extend({
   methods: {
     getLink (news: News) {
       const url = new URL(news.id, 'https://t.bilibili.com/')
-      url.searchParams.append('tab', '2')
       return url.toString()
     }
   }
