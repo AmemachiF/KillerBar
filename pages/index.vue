@@ -18,6 +18,7 @@
 <script lang="ts">
 import Vue from 'vue'
 import moment from 'moment'
+import * as JSONBig from 'json-bigint'
 import { Chart } from '~/components/ChartCard.vue'
 import { News, NewsPicture } from '~/components/NewsCard.vue'
 
@@ -200,11 +201,12 @@ export default Vue.extend({
         })
     },
     fetchNews () {
-      this.$axios.get('https://api.amemachif.com:2333/news')
+      this.$axios.get('https://api.amemachif.com:2333/news', { transformResponse: [data => data] })
         .then((res) => {
-          if (res.data.code === 20000) {
+          const resData = JSONBig.parse(res.data)
+          if (resData.code === 20000) {
             this.news = []
-            res.data.data.forEach((n: any) => {
+            resData.data.forEach((n: any) => {
               let pic: NewsPicture[] | undefined
               if (n.pictures) {
                 pic = []
@@ -219,7 +221,7 @@ export default Vue.extend({
                 })
               }
               this.news.push({
-                id: n.id,
+                id: n.id.toString(),
                 content: n.content,
                 emojiInfo: n.emoji_info,
                 pictures: pic,
