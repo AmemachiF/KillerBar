@@ -4,14 +4,14 @@
       <b-button v-for="v in a.voices" :key="v.filename" class="text-nowrap m-1 position-relative" :class="showProgress(v) ? 'button-trans' : ''" @click="playAudio(v)">
         <div v-if="showProgress(v)" class="voice-progress">
           <b-progress max="100" height="100%">
-            <b-progress-bar :value="playingPlayed" variant="primary" />
-            <b-progress-bar :value="playingLoaded - playingPlayed" variant="secondary" />
+            <b-progress-bar :value="playingPlayed" variant="primary" striped animated />
+            <b-progress-bar :value="playingLoaded - playingPlayed" variant="secondary" striped animated />
           </b-progress>
         </div>
         <div>
           <span>{{ v.text }}</span>
           <b-badge variant="light" pill class="badge-corner">
-            {{ getClick(v.filename, 'clickPV') }}
+            {{ v.clickPV }}
           </b-badge>
         </div>
       </b-button>
@@ -36,7 +36,9 @@ import AV from 'leancloud-storage'
 export declare type Voice = {
   filename: string,
   src: string,
-  text: string
+  text: string,
+  clickPV: number,
+  obj: any
 }
 
 export declare type VoiceGroup = {
@@ -60,29 +62,32 @@ export default Vue.extend({
   },
   data () {
     const voiceClicks: VoiceClick[] = []
+    const timeCounter: any = undefined
     return {
       playingName: '',
       playingLoaded: 0,
       playingPlayed: 0,
-      voiceClicks
+      voiceClicks,
+      timeCounter
     }
   },
   watch: {
-    voices () {
-      this.fetchClick()
-    }
   },
   mounted () {
-    this.fetchClick()
   },
   methods: {
     playAudio (v: Voice) {
+      clearInterval(this.timeCounter)
+      this.timeCounter = undefined
       this.playingLoaded = 0
       this.playingPlayed = 0
       this.playingName = v.filename
       const audio = this.$refs.audio as any
       audio.src = v.src
       audio.load()
+      this.timeCounter = setInterval(() => {
+        this.progressSet(this.$refs.audio)
+      }, 100)
       this.incClick(v)
     },
     progress (event: any) {
@@ -102,71 +107,25 @@ export default Vue.extend({
       this.playingPlayed = 100 * audio.currentTime / audio.duration
     },
     ended () {
+      this.playingLoaded = 100
+      this.playingPlayed = 100
       this.playingName = ''
       this.playingLoaded = 0
       this.playingPlayed = 0
+      clearInterval(this.timeCounter)
+      this.timeCounter = undefined
     },
     showProgress (v: any) {
       return this.playingName === v.filename
     },
     incClick (v: Voice) {
-      const query = new AV.Query('Audio')
-      query.equalTo('filename', v.filename)
-      query.first().then((audio) => {
-        if (audio) {
-          if (audio instanceof AV.Object) {
-            audio.increment('click_pv')
-          } else {
-            return
-          }
-        } else {
-          audio = new AV.Object('Audio')
-          audio.set('filename', v.filename)
-          audio.set('click_pv', 1)
-        }
-        audio.save(null, {
-          fetchWhenSave: true
-        }).then((a) => {
-          const click = this.voiceClicks.find(p => p.name === v.filename)
-          const name = a.get('filename')
-          const clickPV = a.get('click_pv')
-          if (click) {
-            click.clickPV = clickPV
-          } else {
-            this.voiceClicks.push({
-              name,
-              clickPV
-            })
-          }
-        })
+      const obj = AV.parseJSON(v.obj)
+      obj.increment('click_pv')
+      obj.save(null, {
+        fetchWhenSave: true
+      }).then((a: any) => {
+        v.clickPV = a.get('click_pv')
       })
-    },
-    fetchClick () {
-      const query = new AV.Query('Audio')
-      // console.log(this.voices)
-      query.find().then((audios) => {
-        audios.forEach((a) => {
-          const name = a.get('filename')
-          const clickPV = a.get('click_pv')
-          const click = this.voiceClicks.find(p => p.name === name)
-          if (click) {
-            click.clickPV = clickPV
-          } else {
-            this.voiceClicks.push({
-              name,
-              clickPV
-            })
-          }
-        })
-      })
-    },
-    getClick (name: string, key: keyof VoiceClick) {
-      const click = this.voiceClicks.find(p => p.name === name)
-      if (click) {
-        return key in click ? click[key] : 0
-      } else {
-        return 0
-      }
     }
   }
 })
