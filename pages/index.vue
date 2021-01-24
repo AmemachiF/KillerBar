@@ -201,12 +201,11 @@ export default Vue.extend({
         })
     },
     fetchNews () {
-      this.$axios.get('https://api.amemachif.com:2333/news', { transformResponse: [data => data] })
+      this.$axios.get('https://api.amemachif.com:2333/news', { transformResponse: [data => JSONBig.parse(data)] })
         .then((res) => {
-          const resData = JSONBig.parse(res.data)
-          if (resData.code === 20000) {
+          if (res.data.code === 20000) {
             this.news = []
-            resData.data.forEach((n: any) => {
+            res.data.data.forEach((n: any) => {
               let pic: NewsPicture[] | undefined
               if (n.pictures) {
                 pic = []
