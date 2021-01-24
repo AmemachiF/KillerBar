@@ -32,7 +32,7 @@
         </template>
       </b-carousel-slide>
     </b-carousel>
-    <b-modal id="newsModal" :title="modal.updateTime" hide-footer>
+    <b-modal id="newsModal" :title="modal.updateTime">
       <p>
         {{ modal.content }}
       </p>
@@ -41,6 +41,12 @@
           <b-img-lazy v-b-modal.newsPictureModal :src="p.imgSrc" fluid-grow thumbnail />
         </b-col>
       </b-row>
+      <template #modal-footer>
+        <b-link :href="getLink(modal)" target="_blank" rel="noopener">
+          <fa icon="external-link-alt" />
+          查看原文
+        </b-link>
+      </template>
     </b-modal>
     <b-modal id="newsPictureModal" hide-footer size="lg">
       <b-img-lazy :src="pictureModal.imgSrc" fluid-grow />
@@ -60,7 +66,7 @@ export declare type NewsPicture = {
 }
 
 export declare type News = {
-  id: number,
+  id: string,
   content: string,
   emojiInfo?: any,
   pictures?: NewsPicture[],
@@ -83,6 +89,11 @@ export default Vue.extend({
     }
   },
   methods: {
+    getLink (news: News) {
+      const url = new URL(news.id, 'https://t.bilibili.com/')
+      url.searchParams.append('tab', '2')
+      return url.toString()
+    }
   }
 })
 </script>
