@@ -1,18 +1,19 @@
 <template>
   <b-container>
+    <LiveInfoCard :live-info="liveInfo" :room-info="roomInfo" :room-info-old="roomInfoOld" />
     <b-card>
       <template #header>
         <div class="d-inline">
           直播间弹幕
         </div>
         <div class="float-right d-inline">
-          <b-link :href="`https://live.bilibili.com/${livenumber}`" target="_blank" rel="noopener">
+          <b-link :href="`https://live.bilibili.com/${liveInfo.room_id}`" target="_blank" rel="noopener">
             <fa icon="external-link-alt" />
             打开直播间
           </b-link>
         </div>
       </template>
-      <BiliChat class="bilichat" :livenumber="livenumber" />
+      <BiliChat class="bilichat" :roomid="liveInfo.room_id" />
     </b-card>
   </b-container>
 </template>
@@ -23,20 +24,89 @@ import AV from 'leancloud-storage'
 
 export default Vue.extend({
   data () {
+    const liveInfo: any = {}
+    const roomInfo: any = {}
+    const roomInfoOld: any = {}
+    const playUrl: any = {}
     return {
-      livenumber: 4611671
+      liveInfo,
+      roomInfo,
+      roomInfoOld,
+      playUrl
     }
   },
   mounted () {
-    this.getLiveInfo()
+    Promise.resolve()
+      .then(() => {
+        return this.getLiveInfo()
+      }).then(() => {
+        return this.getRoomInfo()
+      }).then(() => {
+        return Promise.all([this.getRoomPlayUrl(), this.getRoomInfoOld()])
+      })
   },
   methods: {
     getLiveInfo () {
-      AV.Cloud.run('Bilibili_LiveInfo_GetInfo', {
-        uid: 118754720
-      }).then((res) => {
-        console.log(res)
+      return new Promise<void>((resolve, reject) => {
+        AV.Cloud.run('getBilibiliLiveInfo', {
+          id: 118754720
+        }).then((res) => {
+          if (res.code === 0) {
+            this.liveInfo = res.data
+            resolve()
+          } else {
+          }
+        }).catch((reason) => {
+          Promise.resolve().then(() => this.getLiveInfo())
+        })
       })
+    },
+    getRoomInfo () {
+      return new Promise<void>((resolve, reject) => {
+        AV.Cloud.run('getBilibiliRoomInfo', {
+          id: this.liveInfo.room_id
+        }).then((res) => {
+          if (res.code === 0) {
+            this.roomInfo = res.data
+            resolve()
+          }
+        }).catch((reason) => {
+          Promise.resolve().then(() => this.getRoomInfo())
+        })
+      })
+    },
+    getRoomPlayUrl () {
+      return new Promise<void>((resolve, reject) => {
+        AV.Cloud.run('getBilibiliRoomPlayUrl', {
+          id: this.liveInfo.room_id
+        }).then((res) => {
+          if (res.code === 0) {
+            this.playUrl = res.data
+            resolve()
+          }
+        }).catch((reason) => {
+          Promise.resolve().then(() => this.getRoomPlayUrl())
+        })
+      })
+    },
+    getRoomInfoOld () {
+      return new Promise<void>((resolve, reject) => {
+        AV.Cloud.run('getBilibiliRoomInfoOld', {
+          id: 118754720
+        }).then((res) => {
+          if (res.code === 0) {
+            this.roomInfoOld = res.data
+            resolve()
+          }
+        }).catch((reason) => {
+          Promise.resolve().then(() => this.getRoomInfoOld())
+        })
+      })
+    },
+    getPlayUrl () {
+      if (this.playUrl?.durl && this.playUrl?.durl.length > 0) {
+        return `blob:${this.playUrl?.durl[0]?.url}`
+      }
     }
   }
 })
