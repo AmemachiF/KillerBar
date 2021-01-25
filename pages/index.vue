@@ -25,11 +25,12 @@ import { News, NewsPicture } from '~/components/NewsCard.vue'
 export default Vue.extend({
   data () {
     const chartsOptions = {
-      grid: {
-        left: 50,
-        right: 0,
-        top: 40,
-        bottom: 20
+      type: 'value',
+      scale: true,
+      yAxis: {
+        axisLabel: {
+          formatter: '{value}w'
+        }
       }
     }
     const charts: Chart[] = [
@@ -40,20 +41,17 @@ export default Vue.extend({
       },
       {
         id: 'chartIncrease',
-        seriesName: '关注增量/每十分钟',
-        options: chartsOptions
+        seriesName: '关注增量/每十分钟'
       }
     ]
     const chartsCaptain: Chart[] = [
       {
         id: 'chartCaptainTotal',
-        seriesName: '大航海总量/每天',
-        options: chartsOptions
+        seriesName: '大航海总量/每天'
       },
       {
         id: 'chartCaptainIncrease',
-        seriesName: '大航海增量/每天',
-        options: chartsOptions
+        seriesName: '大航海增量/每天'
       }
     ]
     const chartsFollowerDay: Chart[] = [
@@ -64,8 +62,7 @@ export default Vue.extend({
       },
       {
         id: 'chartFollowerDayIncrease',
-        seriesName: '关注增量/每天',
-        options: chartsOptions
+        seriesName: '关注增量/每天'
       }
     ]
     const news: News[] = []
@@ -126,7 +123,7 @@ export default Vue.extend({
             for (let key = 1; key < followerLength; key += 1) {
               const preFollower = follower[key - 1]
               chartIncreaseData.push((follower[key].number - preFollower.number).toString())
-              chartTotalData.push(follower[key].number)
+              chartTotalData.push(follower[key].number / 10000)
               const time = moment(follower[key].update_time * 1000).format('MM-DD HH:mm:ss')
               updateTime.push(time)
             }
@@ -186,7 +183,7 @@ export default Vue.extend({
             for (let key = 1; key < followerDayLength; key += 1) {
               const preFollowerDay = follower[key - 1]
               chartIncreaseData.push((follower[key].number - preFollowerDay.number).toString())
-              chartTotalData.push(follower[key].number)
+              chartTotalData.push(follower[key].number / 10000)
               const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD')
               updateTime.push(time)
             }

@@ -24,7 +24,7 @@ export default Vue.extend({
     fetchAudios () {
       const audioBase = 'http://qiniu.amemachif.ioit.pub/audio/'
       const query = new AV.Query('Audio')
-      query.find().then((res) => {
+      query.descending('click_pv').find().then((res) => {
         res.forEach((a) => {
           const g = this.audio.find(p => p.name === a.get('group'))
           const v: Voice = {
