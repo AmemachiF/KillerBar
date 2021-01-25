@@ -123,7 +123,7 @@ export default Vue.extend({
             for (let key = 1; key < followerLength; key += 1) {
               const preFollower = follower[key - 1]
               chartIncreaseData.push((follower[key].number - preFollower.number).toString())
-              chartTotalData.push(follower[key].number / 10000)
+              chartTotalData.push((follower[key].number / 10000).toString())
               const time = moment(follower[key].update_time * 1000).format('MM-DD HH:mm:ss')
               updateTime.push(time)
             }
