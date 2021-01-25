@@ -111,26 +111,7 @@ export default Vue.extend({
       this.$axios.get('https://api.amemachif.com:2333/follower')
         .then((res) => {
           if (res.data.code === 20000) {
-            const charts = this.charts
-            const follower = res.data.data
-            // 数据处理
-            const followerLength = follower.length - 1
-            const chartIncrease = charts.find(p => p.id === 'chartIncrease')!
-            const chartTotal = charts.find(p => p.id === 'chartTotal')!
-            const chartIncreaseData: string[] = []
-            const chartTotalData: string[] = []
-            const updateTime: string[] = []
-            for (let key = 1; key < followerLength; key += 1) {
-              const preFollower = follower[key - 1]
-              chartIncreaseData.push((follower[key].number - preFollower.number).toString())
-              chartTotalData.push(follower[key].number / 10000)
-              const time = moment(follower[key].update_time * 1000).format('MM-DD HH:mm:ss')
-              updateTime.push(time)
-            }
-            chartIncrease.chartData = chartIncreaseData
-            chartTotal.chartData = chartTotalData
-            chartIncrease.xAxisData = updateTime
-            chartTotal.xAxisData = updateTime
+            const charts = this.dataFormat(this.charts, res.data.data, 'chartIncrease', 'chartTotal', 10000, 'MM-DD HH:mm:ss')
             this.updateChart(charts)
           }
         })
@@ -141,26 +122,7 @@ export default Vue.extend({
       this.$axios.get('https://api.amemachif.com:2333/captain')
         .then((res) => {
           if (res.data.code === 20000) {
-            const charts = this.chartsCaptain
-            const captain = res.data.data
-            // 数据处理
-            const captainLength = captain.length - 1
-            const chartCaptainIncrease = charts.find(p => p.id === 'chartCaptainIncrease')!
-            const chartCaptainTotal = charts.find(p => p.id === 'chartCaptainTotal')!
-            const chartIncreaseData: string[] = []
-            const chartTotalData: string[] = []
-            const updateTime: string[] = []
-            for (let key = 1; key < captainLength; key += 1) {
-              const preFollower = captain[key - 1]
-              chartIncreaseData.push((captain[key].number - preFollower.number).toString())
-              chartTotalData.push(captain[key].number)
-              const time = moment(captain[key].update_time * 1000).format('YYYY-MM-DD')
-              updateTime.push(time)
-            }
-            chartCaptainIncrease.chartData = chartIncreaseData
-            chartCaptainTotal.chartData = chartTotalData
-            chartCaptainIncrease.xAxisData = updateTime
-            chartCaptainTotal.xAxisData = updateTime
+            const charts = this.dataFormat(this.chartsCaptain, res.data.data, 'chartCaptainIncrease', 'chartCaptainTotal', 1, 'YYYY-MM-DD')
             this.updateChart(charts)
           }
         })
@@ -171,26 +133,7 @@ export default Vue.extend({
       this.$axios.get('https://api.amemachif.com:2333/follower_day')
         .then((res) => {
           if (res.data.code === 20000) {
-            const charts = this.chartsFollowerDay
-            const follower = res.data.data
-            // 数据处理
-            const followerDayLength = follower.length - 1
-            const chartFollowerDayIncrease = charts.find(p => p.id === 'chartFollowerDayIncrease')!
-            const chartFollowerDayTotal = charts.find(p => p.id === 'chartFollowerDayTotal')!
-            const chartIncreaseData: string[] = []
-            const chartTotalData: string[] = []
-            const updateTime: string[] = []
-            for (let key = 1; key < followerDayLength; key += 1) {
-              const preFollowerDay = follower[key - 1]
-              chartIncreaseData.push((follower[key].number - preFollowerDay.number).toString())
-              chartTotalData.push(follower[key].number / 10000)
-              const time = moment(follower[key].update_time * 1000).format('YYYY-MM-DD')
-              updateTime.push(time)
-            }
-            chartFollowerDayIncrease.chartData = chartIncreaseData
-            chartFollowerDayTotal.chartData = chartTotalData
-            chartFollowerDayIncrease.xAxisData = updateTime
-            chartFollowerDayTotal.xAxisData = updateTime
+            const charts = this.dataFormat(this.chartsFollowerDay, res.data.data, 'chartFollowerDayIncrease', 'chartFollowerDayTotal', 10000, 'YYYY-MM-DD')
             this.updateChart(charts)
           }
         })
@@ -251,6 +194,27 @@ export default Vue.extend({
       (this.$refs.chartCard as any)?.chartResize(); // <--
       (this.$refs.chartCardCaptain as any)?.chartResize(); // <--
       (this.$refs.chartFollowerDay as any)?.chartResize() // <--
+    },
+    dataFormat (charts, follower, increaseId, totalId, yAxisUnit, timeFormat) {
+      // 数据处理
+      const followerLength = follower.length - 1
+      const chartIncrease = charts.find(p => p.id === increaseId)!
+      const chartTotal = charts.find(p => p.id === totalId)!
+      const chartIncreaseData: string[] = []
+      const chartTotalData: string[] = []
+      const updateTime: string[] = []
+      for (let key = 1; key < followerLength; key += 1) {
+        const preFollower = follower[key - 1]
+        chartIncreaseData.push((follower[key].number - preFollower.number).toString())
+        chartTotalData.push((follower[key].number / yAxisUnit).toString())
+        const time = moment(follower[key].update_time * 1000).format(timeFormat)
+        updateTime.push(time)
+      }
+      chartIncrease.chartData = chartIncreaseData
+      chartTotal.chartData = chartTotalData
+      chartIncrease.xAxisData = updateTime
+      chartTotal.xAxisData = updateTime
+      return charts
     }
   }
 })
