@@ -81,8 +81,8 @@ export default Vue.extend({
           data: [chart.seriesName]
         },
         grid: {
-          left: '15%',
-          right: '15%',
+          left: 60,
+          right: 0,
           top: 40,
           bottom: 20
         },

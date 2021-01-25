@@ -1,14 +1,14 @@
 <template>
   <nly-wrapper-footer>
-    <div class="d-none d-sm-inline">
+    <div class="d-sm-inline">
       @{{ date() }}
       <span id="busuanzi_container_site_pv">
-        本酒吧累积接单
+        本酒吧累计接单
         <span id="busuanzi_value_site_pv" />次
       </span>
       |
       <span id="busuanzi_container_site_uv">
-        共有
+        累计
         <span id="busuanzi_value_site_uv" />个顾客下单
       </span>
     </div>
