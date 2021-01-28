@@ -1,0 +1,3 @@
+[submodule "static/synthetic_game"]
+	path = static/synthetic_game
+	url = https://github.com/AmemachiF/SyntheticGame.git

@@ -1,7 +1,7 @@
 <template>
   <b-card>
     <b-card-text>
-      <iframe id="game" :style="gameSize" frameborder="0" src="./game_src/index.html" />
+      <iframe id="game" :style="gameSize" frameborder="0" src="./synthetic_game/index.html" />
     </b-card-text>
   </b-card>
 </template>
