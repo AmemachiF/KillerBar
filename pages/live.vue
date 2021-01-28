@@ -1,6 +1,7 @@
 <template>
   <b-container>
     <LiveInfoCard :live-info="liveInfo" :room-info="roomInfo" :room-info-old="roomInfoOld" />
+    <!-- <video ref="video" /> -->
     <b-card>
       <template #header>
         <div class="d-inline">
@@ -33,6 +34,10 @@ export default Vue.extend({
       roomInfo,
       roomInfoOld,
       playUrl
+    }
+  },
+  watch: {
+    playUrl () {
     }
   },
   mounted () {
