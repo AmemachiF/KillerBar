@@ -1,7 +1,7 @@
 <template>
   <b-card>
     <b-card-text>
-      <iframe id="game" :style="gameSize" frameborder="0" src="./game_src/index.html"/>
+      <iframe id="game" :style="gameSize" frameborder="0" src="./game_src/index.html" />
     </b-card-text>
   </b-card>
 </template>
@@ -23,8 +23,8 @@ export default Vue.extend({
   },
   methods: {
     changeGameSize () {
-      this.gameSize.width = global.innerWidth - 35 + 'px'
-      this.gameSize.height = (global.innerWidth - 35) / 400 * 700 + 'px'
+      this.gameSize.height = (global.innerHeight - 135) + 'px'
+      this.gameSize.width = (global.innerHeight - 135) / 700 * 400 + 'px'
     }
   }
 })
