@@ -115,7 +115,7 @@ export default Vue.extend({
       chart.obj = ec
     },
     chartResize () {
-      if (this.sliding === true) {
+      if (this.sliding) {
         return
       }
 

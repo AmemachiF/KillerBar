@@ -36,6 +36,12 @@
           </template>
           成员
         </nly-sidebar-nav-item>
+        <nly-sidebar-nav-item icon="nav-icon" to="/game">
+          <template #icon>
+            <fa icon="gamepad" />
+          </template>
+          合成大钢板
+        </nly-sidebar-nav-item>
         <nly-sidebar-nav-item icon="nav-icon" target="_blank" rel="noopener" href="https://mzh.moegirl.org.cn/zh-hans/%E9%9B%A8%E8%A1%97F">
           <template #icon>
             <fa icon="external-link-alt" />

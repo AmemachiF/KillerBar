@@ -49,11 +49,15 @@ export default Vue.extend({
         },
         bar: {
           text: '吧台',
-          to: 'bar'
+          to: '/bar'
         },
         brother: {
           text: '成员',
-          to: 'brother'
+          to: '/brother'
+        },
+        game: {
+          text: '合成大钢板',
+          to: '/game'
         }
       }
     }
