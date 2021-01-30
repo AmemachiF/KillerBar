@@ -1,3 +1,4 @@
 [submodule "static/synthetic_game"]
 	path = static/synthetic_game
-	url = https://github.com/AmemachiF/SyntheticGame.git
+	url = https://github.com/AmemachiF/SyntheticGame.publish.git
+	branch = web-mobile
