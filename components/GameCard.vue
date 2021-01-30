@@ -5,9 +5,9 @@
         {{ !newVersion ? '原版' : '重制版（开发中）' }}
       </span>
       <span class="d-inline float-right">
-        <button @click="newVersion = !newVersion">
+        <b-button @click="newVersion = !newVersion">
           切换{{ newVersion ? '原版' : '重制版（开发中）' }}
-        </button>
+        </b-button>
       </span>
     </template>
     <b-card-text>
