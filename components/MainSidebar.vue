@@ -1,7 +1,6 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation side-mini>
     <nly-sidebar-brand to="/">
-      <!-- TODO: Image src -->
       <b-img-lazy
         src="~/assets/icon.png"
         class="brand-image img-circle"
