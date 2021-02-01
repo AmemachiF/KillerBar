@@ -30,7 +30,8 @@
       "@nuxtjs/axios",
       "echarts",
       "bootstrap-vue",
-      "@nuxtjs/color-mode"
+      "@nuxtjs/color-mode",
+      "@nuxtjs/sentry"
     ]
   },
   "exclude": [

@@ -30,6 +30,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { Brother } from '~/components/BrotherCard.vue'
+import { DataCodeError } from '~/plugins/Errors'
 
 export default Vue.extend({
   data () {
@@ -39,25 +40,33 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.fetchBrother()
+    Promise.all([
+      this.fetchBrother()
+    ]).catch((error) => {
+      this.$sentry.captureException(error)
+    })
   },
   methods: {
-    fetchBrother () {
-      this.$axios.get('https://api.amemachif.com:2333/brother')
-        .then((res) => {
-          if (res.data.code === 20000) {
-            this.brothers = []
-            res.data.data.forEach((b: any) => {
-              this.brothers.push({
-                id: b.id,
-                avatar: b.avatar,
-                name: b.name,
-                signature: b.signature,
-                updateTime: moment(b.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
-              })
+    async fetchBrother () {
+      try {
+        const res = await this.$axios.get('https://api.amemachif.com:2333/brother')
+        if (res.data.code === 20000) {
+          this.brothers = []
+          res.data.data.forEach((b: any) => {
+            this.brothers.push({
+              id: b.id,
+              avatar: b.avatar,
+              name: b.name,
+              signature: b.signature,
+              updateTime: moment(b.update_time * 1000).format('YYYY-MM-DD HH:mm:ss')
             })
-          }
-        })
+          })
+        } else {
+          throw new DataCodeError('fetchBrother', res.data)
+        }
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     }
   }
 })
