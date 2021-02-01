@@ -54,6 +54,7 @@ jobs:
           SENTRY_PUBLISH_RELEASE: true
           SENTRY_ORG: 'amemachif'
           SENTRY_PROJECT: 'killer_bar'
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: Deploy GitHub pages
         uses: peaceiris/actions-gh-pages@v3
