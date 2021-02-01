@@ -18,13 +18,18 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.fetchAudios()
+    Promise.all([
+      this.fetchAudios()
+    ]).catch((error) => {
+      this.$sentry.captureException(error)
+    })
   },
   methods: {
-    fetchAudios () {
-      const audioBase = 'http://qiniu.amemachif.ioit.pub/audio/'
-      const query = new AV.Query('Audio')
-      query.descending('click_pv').find().then((res) => {
+    async fetchAudios () {
+      try {
+        const audioBase = 'http://qiniu.amemachif.ioit.pub/audio/'
+        const query = new AV.Query('Audio')
+        const res = await query.descending('click_pv').find()
         res.forEach((a) => {
           const g = this.audio.find(p => p.name === a.get('group'))
           const v: Voice = {
@@ -43,30 +48,9 @@ export default Vue.extend({
             })
           }
         })
-      })
-      // this.$axios.get('https://api.amemachif.com:2333/audio')
-      //   .then((res) => {
-      //     if (res.data.code === 20000) {
-      //       const data = res.data.data
-      //       data.forEach((g: any) => {
-      //         const vg: VoiceGroup = {
-      //           name: g.group,
-      //           voices: []
-      //         }
-      //         g.content.forEach((a: any) => {
-      //           vg.voices.push({
-      //             filename: a.src,
-      //             text: a.text,
-      //             src: new URL(a.filename, audioBase).toString()
-      //           })
-      //         })
-      //         this.audio.push(vg)
-      //       })
-      //     }
-      //   })
-      //   .catch((_) => {
-      //     // TODO: Catch
-      //   })
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     }
   }
 })
