@@ -29,7 +29,8 @@
       "@nuxt/types",
       "@nuxtjs/axios",
       "echarts",
-      "bootstrap-vue"
+      "bootstrap-vue",
+      "@nuxtjs/color-mode"
     ]
   },
   "exclude": [

@@ -1,6 +1,6 @@
 <template>
   <nly-wrapper-header>
-    <nly-navbar variant="white">
+    <nly-navbar :variant="$colorMode.value">
       <!-- Navbar left -->
       <nly-navbar-nav>
         <nly-nav-item
@@ -13,6 +13,19 @@
         <nly-nav-text>
           <b-breadcrumb :items="items" class="my-0 py-0" />
         </nly-nav-text>
+      </nly-navbar-nav>
+
+      <nly-navbar-nav class="ml-auto">
+        <nly-nav-dropdown menu-direction="right" dropdown-toggle>
+          <template v-slot:linkcontent>
+            Color Mode: {{ getColorModeDisplay($colorMode.value) }}
+          </template>
+          <template v-slot:menucontent>
+            <nly-dropdown-item v-for="m in colorModes" :key="m.mode" :active="getColorMode() === m.mode" @click.prevent="setColorMode(m.mode)">
+              {{ m.display }}
+            </nly-dropdown-item>
+          </template>
+        </nly-nav-dropdown>
       </nly-navbar-nav>
     </nly-navbar>
   </nly-wrapper-header>
@@ -32,7 +45,26 @@ export default Vue.extend({
   },
   data () {
     const items: any[] = []
+    const colorModes = [
+      {
+        mode: 'system',
+        display: 'System'
+      },
+      {
+        mode: 'light',
+        display: 'Light'
+      },
+      {
+        mode: 'dark',
+        display: 'Dark'
+      },
+      {
+        mode: 'sepia',
+        display: 'Sepia'
+      }
+    ]
     return {
+      colorModes,
       items
     }
   },
@@ -56,6 +88,15 @@ export default Vue.extend({
       ]
       items.push(curr)
       this.items = items
+    },
+    setColorMode (mode: string) {
+      this.$colorMode.preference = mode
+    },
+    getColorModeDisplay (mode: string) {
+      return this.colorModes.find(p => p.mode === mode)?.display
+    },
+    getColorMode () {
+      return this.$colorMode.preference
     }
   }
 })
