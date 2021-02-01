@@ -1,11 +1,27 @@
 <template>
   <b-container fluid>
     <b-row>
-      <!-- <b-card-group v-for="b in brothers" :key="b.id" deck> -->
-      <b-col v-for="b in brothers" :key="b.id" xl="4" lg="6" md="12">
-        <BrotherCard :brother="b" />
+      <b-col xl="6" lg="12">
+        <b-card header="关于项目">
+          <b-card-text>
+            一些批话。
+          </b-card-text>
+        </b-card>
+        <b-card header="接下来要做的事">
+          <b-card-text>
+            一些批话。
+          </b-card-text>
+        </b-card>
       </b-col>
-    <!-- </b-card-group> -->
+      <b-col xl="6" lg="12">
+        <b-card header="雨组成员">
+          <b-card-text>
+            <b-col v-for="b in brothers" :key="b.id">
+              <BrotherCard :brother="b" />
+            </b-col>
+          </b-card-text>
+        </b-card>
+      </b-col>
     </b-row>
   </b-container>
 </template>

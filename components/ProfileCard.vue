@@ -2,8 +2,8 @@
   <b-card header="档案">
     <b-card-text>
       <b-row>
-        <b-col v-if="image" cols="5" class="m-0">
-          <b-img-lazy :src="image" fluid />
+        <b-col v-if="image" class="m-0">
+          <b-img-lazy height="350px" :src="image" />
         </b-col>
         <b-col id="bossInfo" class="m-0">
           <b-row v-for="bk in keys" :key="bk.id">
