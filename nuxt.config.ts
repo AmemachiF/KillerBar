@@ -83,6 +83,10 @@ const config: NuxtConfig = {
     '@nuxtjs/sentry'
   ],
 
+  bootstrapVue: {
+    icons: false
+  },
+
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     headers: {
@@ -107,7 +111,13 @@ const config: NuxtConfig = {
 
   sentry: {
     lazy: false,
-    tracing: true
+    tracing: true,
+    webpackConfig: {
+      include: [],
+      setCommits: {
+        auto: true
+      }
+    }
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
