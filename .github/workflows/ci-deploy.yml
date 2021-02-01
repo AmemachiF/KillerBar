@@ -52,6 +52,8 @@ jobs:
           LEANCLOUD_SERVER_URL: ${{ secrets.LEANCLOUD_SERVER_URL }}
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           SENTRY_PUBLISH_RELEASE: true
+          SENTRY_ORG: 'amemachif'
+          SENTRY_PROJECT: 'killer_bar'
 
       - name: Deploy GitHub pages
         uses: peaceiris/actions-gh-pages@v3
