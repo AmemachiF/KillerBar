@@ -77,22 +77,30 @@ export default Vue.extend({
   },
   methods: {
     playAudio (v: Voice) {
-      clearInterval(this.timeCounter)
-      this.timeCounter = undefined
-      this.playingLoaded = 0
-      this.playingPlayed = 0
-      this.playingName = v.filename
-      const audio = this.$refs.audio as any
-      audio.src = v.src
-      audio.load()
-      this.timeCounter = setInterval(() => {
-        this.progressSet(this.$refs.audio)
-      }, 100)
-      this.incClick(v)
+      try {
+        clearInterval(this.timeCounter)
+        this.timeCounter = undefined
+        this.playingLoaded = 0
+        this.playingPlayed = 0
+        this.playingName = v.filename
+        const audio = this.$refs.audio as any
+        audio.src = v.src
+        audio.load()
+        this.timeCounter = setInterval(() => {
+          this.progressSet(this.$refs.audio)
+        }, 100)
+        this.incClick(v)
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
     progress (event: any) {
-      const audio = event.target
-      this.progressSet(audio)
+      try {
+        const audio = event.target
+        this.progressSet(audio)
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
     play (event: any) {
       event.target.play()
@@ -125,6 +133,8 @@ export default Vue.extend({
         fetchWhenSave: true
       }).then((a: any) => {
         v.clickPV = a.get('click_pv')
+      }).catch((error) => {
+        this.$sentry.captureException(error)
       })
     }
   }

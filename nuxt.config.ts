@@ -79,7 +79,8 @@ const config: NuxtConfig = {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/sentry'
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
@@ -102,6 +103,11 @@ const config: NuxtConfig = {
       short_name: websiteName,
       lang: 'zh'
     }
+  },
+
+  sentry: {
+    lazy: false,
+    tracing: true
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)

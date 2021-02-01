@@ -54,100 +54,116 @@ export default Vue.extend({
     }
   },
   mounted () {
-    (this.charts as Chart[]).forEach((chart) => {
-      this.echartsInit(chart)
-    })
+    try {
+      (this.charts as Chart[]).forEach((chart) => {
+        this.echartsInit(chart)
+      })
+    } catch (error) {
+      this.$sentry.captureException(error)
+    }
   },
   methods: {
     getProperty (key: string, value: any, defaults: any): any {
       return key in value ? value[key] : defaults
     },
     echartsInit (chart: Chart) {
-      const ec = echarts.init(document.getElementById(chart.id)!)
-      ec.setOption({
-        title: {
-          text: chart.title
-        },
-        tooltip: {
-          trigger: 'axis',
-          axisPointer: {
-            type: 'shadow',
-            label: {
-              backgroundColor: '#6a7985'
+      try {
+        const ec = echarts.init(document.getElementById(chart.id)!)
+        ec.setOption({
+          title: {
+            text: chart.title
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'shadow',
+              label: {
+                backgroundColor: '#6a7985'
+              }
             }
-          }
-        },
-        legend: {
-          data: [chart.seriesName]
-        },
-        grid: {
-          left: 60,
-          right: 0,
-          top: 40,
-          bottom: 20
-        },
-        xAxis: {
-          data: []
-        },
-        yAxis: {
-          type: 'value',
-          scale: true
-        },
-        series: [{
-          name: chart.seriesName,
-          type: 'bar',
-          data: [],
-          itemStyle: {
-            normal: {
-              opacity: 0.4,
-              barBorderRadius: 5,
-              shadowBlur: 3
+          },
+          legend: {
+            data: [chart.seriesName]
+          },
+          grid: {
+            left: 60,
+            right: 0,
+            top: 40,
+            bottom: 20
+          },
+          xAxis: {
+            data: []
+          },
+          yAxis: {
+            type: 'value',
+            scale: true
+          },
+          series: [{
+            name: chart.seriesName,
+            type: 'bar',
+            data: [],
+            itemStyle: {
+              normal: {
+                opacity: 0.4,
+                barBorderRadius: 5,
+                shadowBlur: 3
+              }
             }
-          }
-        }]
-      })
-      if (chart.options) {
-        ec.setOption(chart.options)
+          }]
+        })
+        if (chart.options) {
+          ec.setOption(chart.options)
+        }
+        window.onload?.bind(() => {
+          ec.resize({ width: 'auto', height: 'auto' })
+        })
+        chart.obj = ec
+      } catch (error) {
+        this.$sentry.captureException(error)
       }
-      window.onload?.bind(() => {
-        ec.resize({ width: 'auto', height: 'auto' })
-      })
-      chart.obj = ec
     },
     chartResize () {
-      if (this.sliding) {
-        return
+      try {
+        if (this.sliding) {
+          return
+        }
+
+        (this.charts as Chart[]).forEach((chart) => {
+          chart.obj?.resize({ width: 'auto', height: 'auto' })
+        })
+
+        const ec = (this.charts as Chart[])[this.slide].obj!
+        const clientHeight = ec.getHeight()
+        const clientWidth = ec.getWidth()
+        const curr = ec.getDom()
+        // const clientHeight = curr!.clientHeight
+        // const clientWidth = curr!.clientWidth
+        const paddingTop = Number(this.getStyle(curr!, 'paddingTop').replace(/\s+|px/gi, ''))
+        const paddingBottom = Number(this.getStyle(curr!, 'paddingBottom').replace(/\s+|px/gi, ''))
+        const height = clientHeight - paddingTop - paddingBottom
+        const paddingLeft = Number(this.getStyle(curr!, 'paddingLeft').replace(/\s+|px/gi, ''))
+        const paddingRight = Number(this.getStyle(curr!, 'paddingRight').replace(/\s+|px/gi, ''))
+        const width = clientWidth - paddingLeft - paddingRight
+
+        const opt = { width, height };
+        // console.log({ slide: this.slide, opt })
+        (this.charts as Chart[]).forEach((chart) => {
+          chart.obj?.resize(opt)
+        })
+      } catch (error) {
+        this.$sentry.captureException(error)
       }
-
-      (this.charts as Chart[]).forEach((chart) => {
-        chart.obj?.resize({ width: 'auto', height: 'auto' })
-      })
-
-      const ec = (this.charts as Chart[])[this.slide].obj!
-      const clientHeight = ec.getHeight()
-      const clientWidth = ec.getWidth()
-      const curr = ec.getDom()
-      // const clientHeight = curr!.clientHeight
-      // const clientWidth = curr!.clientWidth
-      const paddingTop = Number(this.getStyle(curr!, 'paddingTop').replace(/\s+|px/gi, ''))
-      const paddingBottom = Number(this.getStyle(curr!, 'paddingBottom').replace(/\s+|px/gi, ''))
-      const height = clientHeight - paddingTop - paddingBottom
-      const paddingLeft = Number(this.getStyle(curr!, 'paddingLeft').replace(/\s+|px/gi, ''))
-      const paddingRight = Number(this.getStyle(curr!, 'paddingRight').replace(/\s+|px/gi, ''))
-      const width = clientWidth - paddingLeft - paddingRight
-
-      const opt = { width, height };
-      // console.log({ slide: this.slide, opt })
-      (this.charts as Chart[]).forEach((chart) => {
-        chart.obj?.resize(opt)
-      })
     },
     getStyle (dom: any, attr: any) {
       return dom.currentStyle ? dom.currentStyle[attr] : getComputedStyle(dom)[attr]
     },
     onSlideEnd () {
-      this.sliding = false
-      this.chartResize()
+      try {
+        this.sliding = false
+        this.chartResize()
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     }
   }
 })

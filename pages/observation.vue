@@ -21,6 +21,7 @@
 import Vue from 'vue'
 import moment from 'moment'
 import { Chart } from '~/components/ChartCard.vue'
+import { DataCodeError } from '~/plugins/Errors'
 
 export default Vue.extend({
   data () {
@@ -73,83 +74,105 @@ export default Vue.extend({
     }
   },
   mounted () {
-    this.fetchFollower()
-    this.fetchFollowerDay()
-    this.fetchCaptain()
+    Promise.all([
+      this.fetchFollower(),
+      this.fetchFollowerDay(),
+      this.fetchCaptain()
+    ]).catch((error) => {
+      this.$sentry.captureException(error)
+    })
   },
   methods: {
-    fetchFollower () {
-      this.$axios.get('https://api.amemachif.com:2333/follower')
-        .then((res) => {
-          if (res.data.code === 20000) {
-            const charts = this.dataFormat(this.charts, res.data.data, 'chartIncrease', 'chartTotal', 10000, 'MM-DD HH:mm:ss')
-            this.updateChart(charts)
-          }
-        })
-        .catch((_) => {
-        })
+    async fetchFollower () {
+      try {
+        const res = await this.$axios.get('https://api.amemachif.com:2333/follower')
+        if (res.data.code === 20000) {
+          const charts = this.dataFormat(this.charts, res.data.data, 'chartIncrease', 'chartTotal', 10000, 'MM-DD HH:mm:ss')
+          this.updateChart(charts)
+        } else {
+          throw new DataCodeError('fetchFollower', res.data)
+        }
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
-    fetchCaptain () {
-      this.$axios.get('https://api.amemachif.com:2333/captain')
-        .then((res) => {
-          if (res.data.code === 20000) {
-            const charts = this.dataFormat(this.chartsCaptain, res.data.data, 'chartCaptainIncrease', 'chartCaptainTotal', 1, 'YYYY-MM-DD')
-            this.updateChart(charts)
-          }
-        })
-        .catch((_) => {
-        })
+    async fetchCaptain () {
+      try {
+        const res = await this.$axios.get('https://api.amemachif.com:2333/captain')
+        if (res.data.code === 20000) {
+          const charts = this.dataFormat(this.chartsCaptain, res.data.data, 'chartCaptainIncrease', 'chartCaptainTotal', 1, 'YYYY-MM-DD')
+          this.updateChart(charts)
+        } else {
+          throw new DataCodeError('fetchCaptain', res.data)
+        }
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
-    fetchFollowerDay () {
-      this.$axios.get('https://api.amemachif.com:2333/follower_day')
-        .then((res) => {
-          if (res.data.code === 20000) {
-            const charts = this.dataFormat(this.chartsFollowerDay, res.data.data, 'chartFollowerDayIncrease', 'chartFollowerDayTotal', 10000, 'YYYY-MM-DD')
-            this.updateChart(charts)
-          }
-        })
-        .catch((_) => {
-        })
+    async fetchFollowerDay () {
+      try {
+        const res = await this.$axios.get('https://api.amemachif.com:2333/follower_day')
+        if (res.data.code === 20000) {
+          const charts = this.dataFormat(this.chartsFollowerDay, res.data.data, 'chartFollowerDayIncrease', 'chartFollowerDayTotal', 10000, 'YYYY-MM-DD')
+          this.updateChart(charts)
+        } else {
+          throw new DataCodeError('fetchFollowerDay', res.data)
+        }
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
     updateChart (charts: Chart[]) {
-      charts.forEach((chart) => {
-        chart.obj?.setOption({
-          xAxis: {
-            data: chart.xAxisData
-          },
-          series: [{
-            // 根据名字对应到相应的系列
-            name: chart.seriesName,
-            data: chart.chartData
-          }]
+      try {
+        charts.forEach((chart) => {
+          chart.obj?.setOption({
+            xAxis: {
+              data: chart.xAxisData
+            },
+            series: [{
+              // 根据名字对应到相应的系列
+              name: chart.seriesName,
+              data: chart.chartData
+            }]
+          })
         })
-      })
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
     chartResize () {
-      // NOTICE: 这里除了最后一行，每行最后需要加分号，否则会报错找不到chartResize
-      (this.$refs.chartCard as any)?.chartResize(); // <--
-      (this.$refs.chartCardCaptain as any)?.chartResize(); // <--
-      (this.$refs.chartFollowerDay as any)?.chartResize() // <--
+      try {
+        // NOTICE: 这里除了最后一行，每行最后需要加分号，否则会报错找不到chartResize
+        (this.$refs.chartCard as any)?.chartResize(); // <--
+        (this.$refs.chartCardCaptain as any)?.chartResize(); // <--
+        (this.$refs.chartFollowerDay as any)?.chartResize() // <--
+      } catch (error) {
+        this.$sentry.captureException(error)
+      }
     },
     dataFormat (charts, follower, increaseId, totalId, yAxisUnit, timeFormat) {
-      // 数据处理
-      const followerLength = follower.length - 1
-      const chartIncrease = charts.find(p => p.id === increaseId)!
-      const chartTotal = charts.find(p => p.id === totalId)!
-      const chartIncreaseData: string[] = []
-      const chartTotalData: string[] = []
-      const updateTime: string[] = []
-      for (let key = 1; key < followerLength; key += 1) {
-        const preFollower = follower[key - 1]
-        chartIncreaseData.push((follower[key].number - preFollower.number).toString())
-        chartTotalData.push((follower[key].number / yAxisUnit).toString())
-        const time = moment(follower[key].update_time * 1000).format(timeFormat)
-        updateTime.push(time)
+      try {
+        // 数据处理
+        const followerLength = follower.length - 1
+        const chartIncrease = charts.find(p => p.id === increaseId)!
+        const chartTotal = charts.find(p => p.id === totalId)!
+        const chartIncreaseData: string[] = []
+        const chartTotalData: string[] = []
+        const updateTime: string[] = []
+        for (let key = 1; key < followerLength; key += 1) {
+          const preFollower = follower[key - 1]
+          chartIncreaseData.push((follower[key].number - preFollower.number).toString())
+          chartTotalData.push((follower[key].number / yAxisUnit).toString())
+          const time = moment(follower[key].update_time * 1000).format(timeFormat)
+          updateTime.push(time)
+        }
+        chartIncrease.chartData = chartIncreaseData
+        chartTotal.chartData = chartTotalData
+        chartIncrease.xAxisData = updateTime
+        chartTotal.xAxisData = updateTime
+      } catch (error) {
+        this.$sentry.captureException(error)
       }
-      chartIncrease.chartData = chartIncreaseData
-      chartTotal.chartData = chartTotalData
-      chartIncrease.xAxisData = updateTime
-      chartTotal.xAxisData = updateTime
       return charts
     }
   }
