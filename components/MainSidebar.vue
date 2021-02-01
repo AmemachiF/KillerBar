@@ -1,7 +1,6 @@
 <template>
   <nly-sidebar-container variant="darkLightblue" elevation side-mini>
     <nly-sidebar-brand to="/">
-      <!-- TODO: Image src -->
       <b-img-lazy
         src="~/assets/icon.png"
         class="brand-image img-circle"
@@ -30,17 +29,23 @@
           </template>
           吧台
         </nly-sidebar-nav-item>
-        <nly-sidebar-nav-item icon="nav-icon" to="/brother">
-          <template #icon>
-            <fa icon="user" />
-          </template>
-          成员
-        </nly-sidebar-nav-item>
         <nly-sidebar-nav-item icon="nav-icon" to="/game">
           <template #icon>
             <fa icon="gamepad" />
           </template>
           合成大钢板
+        </nly-sidebar-nav-item>
+        <nly-sidebar-nav-item icon="nav-icon" to="/treasury">
+          <template #icon>
+            <fa icon="gift" />
+          </template>
+          藏宝阁
+        </nly-sidebar-nav-item>
+        <nly-sidebar-nav-item icon="nav-icon" to="/about">
+          <template #icon>
+            <fa icon="user" />
+          </template>
+          关于我们
         </nly-sidebar-nav-item>
         <nly-sidebar-nav-item icon="nav-icon" target="_blank" rel="noopener" href="https://mzh.moegirl.org.cn/zh-hans/%E9%9B%A8%E8%A1%97F">
           <template #icon>
