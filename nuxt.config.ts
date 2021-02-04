@@ -36,7 +36,8 @@ const config: NuxtConfig = {
   plugins: [
     // { src: '~plugins/FontAwesome', mode: 'all' },
     { src: '~plugins/NlyAdminlteVue', mode: 'all' },
-    { src: '~plugins/LeanCloud', mode: 'all' }
+    { src: '~plugins/LeanCloud', mode: 'all' },
+    { src: '~plugins/MarkdownItPlugins/styles', mode: 'all' }
   ],
 
   router: {
@@ -80,7 +81,8 @@ const config: NuxtConfig = {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    '@nuxtjs/sentry'
+    '@nuxtjs/sentry',
+    '@nuxtjs/markdownit'
   ],
 
   bootstrapVue: {
@@ -118,6 +120,12 @@ const config: NuxtConfig = {
         auto: true
       }
     }
+  },
+
+  markdownit: {
+    runtime: true,
+    html: true,
+    use: ['~/plugins/MarkdownItPlugins']
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
