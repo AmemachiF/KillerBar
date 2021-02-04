@@ -31,7 +31,9 @@
       "echarts",
       "bootstrap-vue",
       "@nuxtjs/color-mode",
-      "@nuxtjs/sentry"
+      "@nuxtjs/sentry",
+      "@nuxtjs/markdownit",
+      "@types/markdown-it"
     ]
   },
   "exclude": [
