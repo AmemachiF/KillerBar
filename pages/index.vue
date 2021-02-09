@@ -17,6 +17,11 @@
       </b-col>
       <b-col xl="6" lg="12">
         <NewsCard :news="news" />
+        <b-card header="名言">
+          <b-card-text>
+            <b-container v-html="word" />
+          </b-card-text>
+        </b-card>
         <b-card header="经历">
           <b-card-text>
             <b-container v-html="experience" />
@@ -53,6 +58,7 @@ export default Vue.extend({
       slide: 0,
       news,
       brief: '',
+      word: '',
       anecdotes: '',
       experience: ''
     }
@@ -67,6 +73,10 @@ export default Vue.extend({
     this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/brief.md')
       .then((brief) => {
         this.brief = this.$md.render(brief)
+      })
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/word.md')
+      .then((word) => {
+        this.word = this.$md.render(word)
       })
     this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/anecdotes.md')
       .then((anecdotes) => {
