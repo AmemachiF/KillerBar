@@ -4,12 +4,12 @@
       <b-col xl="6" lg="12">
         <b-card header="关于项目">
           <b-card-text>
-            一些批话。
+            <b-container v-html="about" />
           </b-card-text>
         </b-card>
         <b-card header="接下来要做的事">
           <b-card-text>
-            一些批话。
+            <b-container v-html="todos" />
           </b-card-text>
         </b-card>
       </b-col>
@@ -36,7 +36,9 @@ export default Vue.extend({
   data () {
     const brothers: Brother[] = []
     return {
-      brothers
+      brothers,
+      about: '',
+      todos: ''
     }
   },
   mounted () {
@@ -45,6 +47,14 @@ export default Vue.extend({
     ]).catch((error) => {
       this.$sentry.captureException(error)
     })
+    this.$axios.$get('https://qiniu.amemachif.ioit.pub/about/TODOS.md')
+      .then((todos) => {
+        this.todos = this.$md.render(todos)
+      })
+    this.$axios.$get('https://qiniu.amemachif.ioit.pub/about/about_project.md')
+      .then((about) => {
+        this.about = this.$md.render(about)
+      })
   },
   methods: {
     async fetchBrother () {

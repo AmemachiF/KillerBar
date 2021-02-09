@@ -2,11 +2,31 @@
   <b-container fluid>
     <b-row>
       <b-col xl="6" lg="12">
+        <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
         <ProfileCard v-resize="chartResize" :keys="bossKeys" :info="boss" :image="require('~/assets/Amemachi_Hanken.png')" />
-        <NewsCard :news="news" />
+        <b-card header="简介">
+          <b-card-text>
+            <b-container v-html="brief" />
+          </b-card-text>
+        </b-card>
+        <b-card header="轶事">
+          <b-card-text>
+            <b-container v-html="anecdotes" />
+          </b-card-text>
+        </b-card>
       </b-col>
       <b-col xl="6" lg="12">
-        <NoticeCard :avatar="getProperty('avatar', boss, undefined)" />
+        <NewsCard :news="news" />
+        <b-card header="名言">
+          <b-card-text>
+            <b-container v-html="word" />
+          </b-card-text>
+        </b-card>
+        <b-card header="经历">
+          <b-card-text>
+            <b-container v-html="experience" />
+          </b-card-text>
+        </b-card>
       </b-col>
     </b-row>
   </b-container>
@@ -36,7 +56,11 @@ export default Vue.extend({
       ],
       boss: {},
       slide: 0,
-      news
+      news,
+      brief: '',
+      word: '',
+      anecdotes: '',
+      experience: ''
     }
   },
   mounted () {
@@ -46,6 +70,22 @@ export default Vue.extend({
     ]).catch((error) => {
       this.$sentry.captureException(error)
     })
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/brief.md')
+      .then((brief) => {
+        this.brief = this.$md.render(brief)
+      })
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/word.md')
+      .then((word) => {
+        this.word = this.$md.render(word)
+      })
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/anecdotes.md')
+      .then((anecdotes) => {
+        this.anecdotes = this.$md.render(anecdotes)
+      })
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/experience.md')
+      .then((experience) => {
+        this.experience = this.$md.render(experience)
+      })
   },
   methods: {
     async fetchBoss () {

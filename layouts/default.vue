@@ -58,6 +58,14 @@ export default Vue.extend({
         game: {
           text: '合成大钢板',
           to: '/game'
+        },
+        treasury: {
+          text: '藏宝阁',
+          to: '/treasury'
+        },
+        about: {
+          text: '关于我们',
+          to: '/about'
         }
       }
     }
