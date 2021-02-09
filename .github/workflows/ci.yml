@@ -43,10 +43,18 @@ jobs:
       - name: Run linter 👀
         run: yarn lint
 
+      - name: Declare some variables
+        id: vars
+        shell: bash
+        run: |
+          echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+          echo "::set-output name=sha_short::$(git rev-parse --short $GITHUB_SHA)"
+
       - name: Generate
         run: yarn generate
         env:
-          APP_ROUTER_BASE: '/Killer_Bar.pages/'
+          APP_ROUTER_BASE: '/'
+          APP_VERSION: Develop-${{ steps.vars.outputs.sha_short }}
           LEANCLOUD_APP_ID: ${{ secrets.LEANCLOUD_APP_ID }}
           LEANCLOUD_APP_KEY: ${{ secrets.LEANCLOUD_APP_KEY }}
           LEANCLOUD_SERVER_URL: ${{ secrets.LEANCLOUD_SERVER_URL }}
