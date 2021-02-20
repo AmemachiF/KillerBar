@@ -33,7 +33,7 @@ export default Vue.extend({
         res.forEach((a) => {
           const g = this.audio.find(p => p.name === a.get('group'))
           const v: Voice = {
-            filename: a.get('filename'),
+            filename: a.get('name') + '.aac',
             src: new URL(a.get('name') + '.aac', audioBase).toString(),
             text: a.get('text'),
             clickPV: a.get('click_pv'),
