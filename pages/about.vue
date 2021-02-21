@@ -47,11 +47,11 @@ export default Vue.extend({
     ]).catch((error) => {
       this.$sentry.captureException(error)
     })
-    this.$axios.$get('https://qiniu.amemachif.ioit.pub/about/TODOS.md')
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/TODOS.md')
       .then((todos) => {
         this.todos = this.$md.render(todos)
       })
-    this.$axios.$get('https://qiniu.amemachif.ioit.pub/about/about_project.md')
+    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/about_project.md')
       .then((about) => {
         this.about = this.$md.render(about)
       })
