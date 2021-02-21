@@ -18,7 +18,7 @@
       <nly-navbar-nav class="ml-auto">
         <nly-nav-dropdown menu-direction="right" dropdown-toggle>
           <template v-slot:linkcontent>
-            Themes: {{ getColorModeDisplay($colorMode.value) }}
+            {{ getColorModeDisplay($colorMode.value) }}
           </template>
           <template v-slot:menucontent>
             <nly-dropdown-item v-for="m in colorModes" :key="m.mode" :active="getColorMode() === m.mode" @click.prevent="setColorMode(m.mode)">
