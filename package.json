@@ -1,6 +1,7 @@
 {
   "name": "killer_bar",
   "version": "1.0.0",
+  "description": "鲨手酒吧",
   "private": true,
   "scripts": {
     "dev": "nuxt-ts",
