@@ -17,7 +17,8 @@ const config: NuxtConfig = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      { hid: 'description', name: 'description', content: '鲨手酒吧' },
+      { hid: 'keywords', name: 'keywords', content: '鲨手酒吧,杀手酒吧,雨街F,雨街,AmemachiF,Amemachi,RedCircle,Red,Circle,RC,红圈,Vliver,虚拟主播,bilibili,哔哩哔哩' },
       { name: 'referrer', content: 'no-referrer' }
     ],
     link: [
