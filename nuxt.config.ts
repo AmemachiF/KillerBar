@@ -82,7 +82,9 @@ const config: NuxtConfig = {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     '@nuxtjs/sentry',
-    '@nuxtjs/markdownit'
+    '@nuxtjs/markdownit',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots'
   ],
 
   bootstrapVue: {
@@ -126,6 +128,15 @@ const config: NuxtConfig = {
     runtime: true,
     html: true,
     use: ['~/plugins/MarkdownItPlugins']
+  },
+
+  sitemap: {
+    hostname: 'https://amemachif.com',
+    gzip: true
+  },
+
+  robots: {
+    Sitemap: 'sitemap.xml'
   },
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
