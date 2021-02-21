@@ -66,26 +66,26 @@ export default Vue.extend({
   mounted () {
     Promise.all([
       this.fetchBoss(),
-      this.fetchNews()
+      this.fetchNews(),
+      this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/brief.md')
+        .then((brief) => {
+          this.brief = this.$md.render(brief)
+        }),
+      this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/word.md')
+        .then((word) => {
+          this.word = this.$md.render(word)
+        }),
+      this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/anecdotes.md')
+        .then((anecdotes) => {
+          this.anecdotes = this.$md.render(anecdotes)
+        }),
+      this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/experience.md')
+        .then((experience) => {
+          this.experience = this.$md.render(experience)
+        })
     ]).catch((error) => {
       this.$sentry.captureException(error)
     })
-    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/brief.md')
-      .then((brief) => {
-        this.brief = this.$md.render(brief)
-      })
-    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/word.md')
-      .then((word) => {
-        this.word = this.$md.render(word)
-      })
-    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/anecdotes.md')
-      .then((anecdotes) => {
-        this.anecdotes = this.$md.render(anecdotes)
-      })
-    this.$axios.$get('https://md.qiniu.amemachif.ioit.pub/experience.md')
-      .then((experience) => {
-        this.experience = this.$md.render(experience)
-      })
   },
   methods: {
     async fetchBoss () {

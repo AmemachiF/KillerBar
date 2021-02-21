@@ -1,6 +1,6 @@
 <template>
   <nly-wrapper layout="fixed" navbar-fixed footer-fixed>
-    <Header :route-names="routeNames" />
+    <Header :route-names="routeNames" :breadcrumb-items="breadcrumbItems" />
     <MainSidebar />
     <nly-content-wrapper>
       <nly-content style="padding-top: 15px">
@@ -37,7 +37,10 @@ Vue.directive('resize', {
 
 export default Vue.extend({
   data () {
+    const breadcrumbItems: any[] = []
     return {
+      title: process.env.websiteName,
+      breadcrumbItems,
       routeNames: {
         index: {
           text: '档案',
@@ -70,7 +73,37 @@ export default Vue.extend({
       }
     }
   },
+  watch: {
+    $route () {
+      this.routeChange()
+    }
+  },
   mounted () {
+    this.routeChange()
+  },
+  methods: {
+    routeChange () {
+      const currName = this.$route.name!
+      const curr = this.routeNames[currName]
+      const items = [
+        {
+          text: process.env.websiteName,
+          to: '/'
+        }
+      ]
+      items.push(curr)
+      this.title = items.reverse().map(p => p.text).join(' - ')
+      this.breadcrumbItems = items
+    }
+  },
+  head () {
+    const items = [process.env.websiteName]
+    if (this.$route.name) {
+      items.push(this.$data.routeNames[this.$route.name].text)
+    }
+    return {
+      title: items.reverse().join(' - ')
+    }
   }
 })
 </script>

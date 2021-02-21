@@ -11,7 +11,7 @@
           <fa icon="bars" />
         </nly-nav-item>
         <nly-nav-text>
-          <b-breadcrumb :items="items" class="my-0 py-0" />
+          <b-breadcrumb :items="breadcrumbItems" class="my-0 py-0" />
         </nly-nav-text>
       </nly-navbar-nav>
 
@@ -41,6 +41,12 @@ export default Vue.extend({
       default () {
         return {}
       }
+    },
+    breadcrumbItems: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   },
   data () {
@@ -68,27 +74,7 @@ export default Vue.extend({
       items
     }
   },
-  watch: {
-    $route () {
-      this.breadcrumbItems()
-    }
-  },
-  created () {
-    this.breadcrumbItems()
-  },
   methods: {
-    breadcrumbItems () {
-      const currName = this.$route.name!
-      const curr = this.routeNames[currName]
-      const items = [
-        {
-          text: '鲨手酒吧',
-          to: '/'
-        }
-      ]
-      items.push(curr)
-      this.items = items
-    },
     setColorMode (mode: string) {
       this.$colorMode.preference = mode
     },
