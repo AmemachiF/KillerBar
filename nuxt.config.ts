@@ -46,6 +46,7 @@ const config: NuxtConfig = {
   },
 
   env: {
+    websiteName,
     appVersion: process.env.APP_VERSION ?? 'SNAPSHOT',
     appVersionUrl: process.env.APP_VERSION_URL ?? '',
     appRevision: process.env.APP_REVISION ?? '',
