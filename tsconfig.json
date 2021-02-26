@@ -28,6 +28,7 @@
       "@types/node",
       "@nuxt/types",
       "@nuxtjs/axios",
+      "@nuxtjs/firebase",
       "echarts",
       "bootstrap-vue",
       "@nuxtjs/color-mode",

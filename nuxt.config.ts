@@ -141,6 +141,21 @@ const config: NuxtConfig = {
     Sitemap: 'sitemap.xml'
   },
 
+  firebase: {
+    config: {
+      apiKey: 'AIzaSyBHgyZ7fWO4d6hjVq8IsX_rWxwQPI9EDHo',
+      authDomain: 'amemachif-killer-bar.firebaseapp.com',
+      projectId: 'amemachif-killer-bar',
+      storageBucket: 'amemachif-killer-bar.appspot.com',
+      messagingSenderId: '684486511706',
+      appId: '1:684486511706:web:5898709390f4a5e5d31c63',
+      measurementId: 'G-8GH8YDB78K'
+    },
+    services: {
+      auth: true
+    }
+  },
+
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
   }
