@@ -86,7 +86,8 @@ const config: NuxtConfig = {
     '@nuxtjs/sentry',
     '@nuxtjs/markdownit',
     '@nuxtjs/sitemap',
-    '@nuxtjs/robots'
+    '@nuxtjs/robots',
+    '@nuxtjs/firebase'
   ],
 
   bootstrapVue: {
@@ -142,6 +143,7 @@ const config: NuxtConfig = {
   },
 
   firebase: {
+    lazy: false,
     config: {
       apiKey: 'AIzaSyBHgyZ7fWO4d6hjVq8IsX_rWxwQPI9EDHo',
       authDomain: 'amemachif-killer-bar.firebaseapp.com',

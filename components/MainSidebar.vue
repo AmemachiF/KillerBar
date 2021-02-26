@@ -10,6 +10,33 @@
       </nly-sidebar-brandtext>
     </nly-sidebar-brand>
     <nly-sidebar>
+      <nly-sidebar-userpanel
+        v-if="isLoggedIn"
+        class="mt-3 pb-3 mb-3 d-flex"
+      >
+        <nly-sidebar-userpanel-img
+          v-if="!!getUserPhoto()"
+          :src="getUserPhoto()"
+        />
+        <b-avatar v-else class="pl-1" />
+        <nly-sidebar-userpanel-info
+          href="javascript:void(0);"
+          @click.prevent="logout"
+        >
+          {{ getUserDisplayName() }}
+        </nly-sidebar-userpanel-info>
+      </nly-sidebar-userpanel>
+      <nly-sidebar-userpanel
+        v-else
+        class="mt-3 pb-3 mb-3 d-flex"
+      >
+        <b-avatar class="pl-1" />
+        <nly-sidebar-userpanel-info
+          to="login"
+        >
+          Login
+        </nly-sidebar-userpanel-info>
+      </nly-sidebar-userpanel>
       <nly-sidebar-nav class="mt-2" legacy flat child-indent>
         <nly-sidebar-nav-item icon="nav-icon" to="/">
           <template #icon>
@@ -67,7 +94,34 @@
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend({})
+export default Vue.extend({
+  data () {
+    return {
+      isLoggedIn: !!this.$fire.auth.currentUser
+    }
+  },
+  mounted () {
+    this.$fire.auth.onAuthStateChanged((user) => {
+      if (user) {
+        this.isLoggedIn = true
+      } else {
+        this.isLoggedIn = false
+      }
+    })
+  },
+  methods: {
+    getUserDisplayName () {
+      return this.$fire.auth.currentUser?.displayName
+    },
+    getUserPhoto () {
+      return this.$fire.auth.currentUser?.photoURL
+    },
+    logout () {
+      this.$fire.auth.signOut()
+      return false
+    }
+  }
+})
 </script>
 
 <style lang="stylus" scoped>

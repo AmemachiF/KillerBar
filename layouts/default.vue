@@ -39,7 +39,6 @@ export default Vue.extend({
   data () {
     const breadcrumbItems: any[] = []
     return {
-      title: process.env.websiteName,
       breadcrumbItems,
       routeNames: {
         index: {
@@ -92,14 +91,16 @@ export default Vue.extend({
         }
       ]
       items.push(curr)
-      this.title = items.reverse().map(p => p.text).join(' - ')
       this.breadcrumbItems = items
     }
   },
   head () {
     const items = [process.env.websiteName]
     if (this.$route.name) {
-      items.push(this.$data.routeNames[this.$route.name].text)
+      const rn = this.$data.routeNames[this.$route.name]
+      if (rn) {
+        items.push(rn.text)
+      }
     }
     return {
       title: items.reverse().join(' - ')
