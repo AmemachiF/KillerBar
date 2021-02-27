@@ -10,6 +10,34 @@
       </nly-sidebar-brandtext>
     </nly-sidebar-brand>
     <nly-sidebar>
+      <nly-sidebar-userpanel
+        v-if="isLoggedIn"
+        class="mt-3 pb-3 mb-3 d-flex"
+      >
+        <nly-sidebar-userpanel-img
+          v-if="!!getUserAvatar()"
+          :src="getUserAvatar()"
+        />
+        <b-avatar v-else class="pl-1" />
+        <nly-sidebar-userpanel-info
+          href="javascript:void(0);"
+          title="点击注销登录"
+          @click.prevent="logout"
+        >
+          {{ getUserDisplayName() }}
+        </nly-sidebar-userpanel-info>
+      </nly-sidebar-userpanel>
+      <nly-sidebar-userpanel
+        v-else
+        class="mt-3 pb-3 mb-3 d-flex"
+      >
+        <b-avatar class="pl-1" />
+        <nly-sidebar-userpanel-info
+          to="login"
+        >
+          登录
+        </nly-sidebar-userpanel-info>
+      </nly-sidebar-userpanel>
       <nly-sidebar-nav class="mt-2" legacy flat child-indent>
         <nly-sidebar-nav-item icon="nav-icon" to="/">
           <template #icon>
@@ -67,7 +95,34 @@
 
 <script lang="ts">
 import Vue from 'vue'
-export default Vue.extend({})
+import AV from 'leancloud-storage'
+
+export default Vue.extend({
+  data () {
+    return {
+      isLoggedIn: !!AV.User.current()
+    }
+  },
+  computed: {
+  },
+  mounted () {
+    setInterval(this.checkIsLoggedIn, 500)
+  },
+  methods: {
+    checkIsLoggedIn () {
+      this.isLoggedIn = !!AV.User.current()
+    },
+    getUserDisplayName () {
+      return AV.User.current()?.get('nickname')
+    },
+    getUserAvatar () {
+      return AV.User.current()?.get('avatar')
+    },
+    logout () {
+      AV.User.logOut()
+    }
+  }
+})
 </script>
 
 <style lang="stylus" scoped>
