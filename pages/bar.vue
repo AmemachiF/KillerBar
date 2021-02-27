@@ -1,6 +1,7 @@
 <template>
   <b-container fluid>
     <VoiceCard :voices="audio" />
+    <Comment page-id="/bar" />
   </b-container>
 </template>
 

@@ -15,12 +15,13 @@
         class="mt-3 pb-3 mb-3 d-flex"
       >
         <nly-sidebar-userpanel-img
-          v-if="!!getUserPhoto()"
-          :src="getUserPhoto()"
+          v-if="!!getUserAvatar()"
+          :src="getUserAvatar()"
         />
         <b-avatar v-else class="pl-1" />
         <nly-sidebar-userpanel-info
           href="javascript:void(0);"
+          title="点击注销登录"
           @click.prevent="logout"
         >
           {{ getUserDisplayName() }}
@@ -34,7 +35,7 @@
         <nly-sidebar-userpanel-info
           to="login"
         >
-          Login
+          登录
         </nly-sidebar-userpanel-info>
       </nly-sidebar-userpanel>
       <nly-sidebar-nav class="mt-2" legacy flat child-indent>
@@ -94,31 +95,31 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import AV from 'leancloud-storage'
+
 export default Vue.extend({
   data () {
     return {
-      isLoggedIn: !!this.$fire.auth.currentUser
+      isLoggedIn: !!AV.User.current()
     }
   },
+  computed: {
+  },
   mounted () {
-    this.$fire.auth.onAuthStateChanged((user) => {
-      if (user) {
-        this.isLoggedIn = true
-      } else {
-        this.isLoggedIn = false
-      }
-    })
+    setInterval(this.checkIsLoggedIn, 500)
   },
   methods: {
-    getUserDisplayName () {
-      return this.$fire.auth.currentUser?.displayName
+    checkIsLoggedIn () {
+      this.isLoggedIn = !!AV.User.current()
     },
-    getUserPhoto () {
-      return this.$fire.auth.currentUser?.photoURL
+    getUserDisplayName () {
+      return AV.User.current()?.get('nickname')
+    },
+    getUserAvatar () {
+      return AV.User.current()?.get('avatar')
     },
     logout () {
-      this.$fire.auth.signOut()
-      return false
+      AV.User.logOut()
     }
   }
 })

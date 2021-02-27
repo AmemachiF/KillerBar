@@ -3,52 +3,52 @@
     <b-row class="text-center">
       <b-form-radio-group v-model="userLogin.type" buttons class="mx-auto">
         <b-form-radio value="login">
-          Login
+          登录
         </b-form-radio>
         <b-form-radio value="register">
-          Register
+          注册
         </b-form-radio>
       </b-form-radio-group>
     </b-row>
     <b-form @submit.prevent="isCheckedLogin ? onLogin() : onRegister()">
       <b-form-group
         id="gLoginEmail"
-        label="Email:"
+        label="邮箱："
         label-for="loginEmail"
       >
         <b-form-input
           id="loginEmail"
           v-model="userLogin.email"
           type="email"
-          placeholder="Enter email"
+          placeholder="输入邮箱"
           required
         />
       </b-form-group>
 
       <b-form-group
         v-if="!isCheckedLogin"
-        id="gLoginNickName"
-        label="Nick Name:"
-        label-for="loginNickName"
+        id="gLoginNickname"
+        label="昵称"
+        label-for="loginNickname"
       >
         <b-form-input
-          id="loginNickName"
-          v-model="userLogin.nickName"
+          id="loginNickname"
+          v-model="userLogin.nickname"
           type="text"
-          placeholder="Enter nickname"
+          placeholder="输入昵称"
           required
         />
       </b-form-group>
 
       <b-form-group
         id="gLoginPassword"
-        label="Password:"
+        label="密码"
         label-for="loginPassword"
       >
         <b-form-input
           id="loginPassword"
           v-model="userLogin.password"
-          placeholder="Enter password"
+          placeholder="输入密码"
           type="password"
           required
         />
@@ -57,20 +57,20 @@
       <b-form-group
         v-if="!isCheckedLogin"
         id="gLoginPasswordConfirm"
-        label="Password Confirm:"
+        label="重复密码："
         label-for="loginPasswordConfirm"
       >
         <b-form-input
           id="loginPasswordConfirm"
           v-model="userLogin.passwordConfirm"
-          placeholder="Entern password confirm"
+          placeholder="输入重复密码"
           type="password"
           required
         />
       </b-form-group>
 
       <b-button type="submit" variant="primary" :disabled="processing">
-        {{ isCheckedLogin ? 'Login' : 'Register' }}
+        {{ isCheckedLogin ? '登录' : '注册' }}
       </b-button>
     </b-form>
     <div class="alert-container position-fixed">
@@ -92,14 +92,13 @@
 
 <script lang="ts">
 import Vue from 'vue'
+import AV from 'leancloud-storage'
 
 class UserLogin {
-  loginName: string = ''
-  userName: string = ''
   email: string = ''
   password: string = ''
   passwordConfirm: string = ''
-  nickName: string = ''
+  nickname: string = ''
   type: 'login'|'register' = 'login'
 }
 
@@ -133,7 +132,7 @@ export default Vue.extend({
     onLogin () {
       this.processing = true
       const userLogin = this.userLogin
-      this.$fire.auth.signInWithEmailAndPassword(userLogin.email, userLogin.password)
+      AV.User.loginWithEmail(userLogin.email, userLogin.password)
         .then((_) => {
           this.$router.push({
             name: 'index'
@@ -160,12 +159,17 @@ export default Vue.extend({
         errorMessage = '重复密码不匹配'
         this.processing = false
       } else {
-        this.$fire.auth.createUserWithEmailAndPassword(userLogin.email, userLogin.password)
-          .then((user) => {
-              user.user?.updateProfile({
-                displayName: userLogin.nickName
-              })
-              this.processing = false
+        const newUser = new AV.User()
+        newUser.setEmail(userLogin.email)
+        newUser.setUsername(userLogin.email)
+        newUser.setPassword(userLogin.password)
+        newUser.set('nickname', userLogin.nickname)
+        newUser.signUp()
+          .then((_) => {
+            this.$router.push({
+              name: 'index'
+            })
+            this.processing = false
           })
           .catch((error) => {
             const errorMessage = error.message
