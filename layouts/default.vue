@@ -14,7 +14,6 @@
 
 <script lang="ts">
 import Vue from 'vue'
-import AV from 'leancloud-storage'
 
 Vue.directive('resize', {
   bind (el, binding) {
@@ -80,26 +79,6 @@ export default Vue.extend({
   },
   mounted () {
     this.routeChange()
-    // this.$fire.auth.onAuthStateChanged((u) => {
-    //   if (u) {
-    //     u.getIdToken()
-    //       .then((token) => {
-    //         console.log(token)
-    //         AV.User.logOut().then(() => {
-    //           const avu = new AV.User()
-    //           avu.setEmail(u.email!!)
-    //           avu.setUsername(u.email!!)
-    //           avu.loginWithAuthData({ uid: u.uid, access_token: token }, 'firebase')
-    //             .then((_) => {
-    //               console.log(AV.User.current())
-    //             })
-    //             .catch((error) => {
-    //               console.log(error)
-    //             })
-    //         })
-    //       })
-    //   }
-    // })
   },
   methods: {
     routeChange () {
