@@ -33,6 +33,7 @@ export default Vue.extend({
       const query = new AV.Query('Comments')
       query.equalTo('parent', null)
       query.include('user')
+      query.ascending('time')
       query.find().then((tops) => {
         this.comments = []
         tops.forEach((top) => {
