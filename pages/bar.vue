@@ -1,6 +1,7 @@
 <template>
   <b-container fluid>
     <VoiceCard :voices="audio" />
+    <Comment page-id="/bar" />
   </b-container>
 </template>
 
@@ -29,7 +30,7 @@ export default Vue.extend({
       try {
         const audioBase = 'http://qiniu.amemachif.ioit.pub/audio/'
         const query = new AV.Query('Audio')
-        const res = await query.descending('click_pv').limit(1000).find()
+        const res = await query.limit(1000).descending('click_pv').find()
         res.forEach((a) => {
           const g = this.audio.find(p => p.name === a.get('group'))
           const v: Voice = {

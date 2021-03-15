@@ -108,7 +108,7 @@ const config: NuxtConfig = {
       name: websiteName,
       lang: 'zh'
     },
-    manifeat: {
+    manifest: {
       name: websiteName,
       short_name: websiteName,
       lang: 'zh'
