@@ -1,10 +1,10 @@
 <template>
-  <b-container class="comments">
+  <bcontainer class="card" fluid>
     <CommentInput :page-id="pageId" @refresh="refresh" />
     <CommentItem v-for="item in comments" :key="item.id" :item="item">
       <CommentItem v-for="sub in item.subs" :key="sub.id" :item="sub" sub />
     </CommentItem>
-  </b-container>
+  </bcontainer>
 </template>
 
 <script lang="ts">
@@ -33,7 +33,7 @@ export default Vue.extend({
       const query = new AV.Query('Comments')
       query.equalTo('parent', null)
       query.include('user')
-      query.ascending('time')
+      query.descending('time')
       query.find().then((tops) => {
         this.comments = []
         tops.forEach((top) => {
@@ -68,11 +68,12 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.comments {
-  background-color: white;
-  padding: 1em;
-  margin: 1em auto;
-  border-radius: 1rem;
-  box-shadow: 0.1rem 0.1rem 0.5rem 0.1rem grey;
-}
+/*.comments {*/
+/*  width: 100%;*/
+/*  background-color: white;*/
+/*  padding: 1em;*/
+/*  margin: 1em auto;*/
+/*  border-radius: 1rem;*/
+/*  box-shadow: 0.1rem 0.1rem 0.5rem 0.1rem grey;*/
+/*}*/
 </style>
