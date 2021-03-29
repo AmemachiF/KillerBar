@@ -18,9 +18,13 @@ export default Vue.extend({
     this.player = new APlayer({
       container: this.$refs.player,
       fixed: true,
+      lrcType: 3,
+      preload: 'none',
       audio: []
     })
-    Promise.all([this.fetchMusic()])
+    Promise.all([this.fetchMusic()]).catch((error) => {
+      this.$sentry.captureException(error)
+    })
   },
   methods: {
     async fetchMusic () {
@@ -28,17 +32,34 @@ export default Vue.extend({
       const music = await query.find()
       this.player.list.clear()
       const baseUrl = 'https://qiniu.amemachif.ioit.pub'
-      music.forEach((m) => {
+      music.sort((a, b) => a.get('order') - b.get('order')).forEach((m) => {
+        const url = m.get('url')
+        const cover = m.get('cover')
+        const lrc = m.get('lrc')
         this.player.list.add({
           name: m.get('name'),
           artist: m.get('artist'),
-          url: new URL(m.get('url'), baseUrl).toString(),
-          cover: new URL(m.get('cover'), baseUrl).toString(),
-          lrc: m.get('lrc'),
+          url: this.getRealUrl(url, baseUrl),
+          cover: this.getRealUrl(cover, baseUrl),
+          lrc: this.getRealUrl(lrc, baseUrl) ?? '',
           theme: m.get('theme'),
           type: m.get('type')
         })
       })
+    },
+    getRealUrl (url: string, baseUrl: string): string {
+      if (url) {
+        return url.startsWith('http://') || url.startsWith('https://') ? url : new URL(url, baseUrl).toString()
+      } else {
+        return url
+      }
+    },
+    async getLrc (url: string): Promise<string> {
+      if (url) {
+        return await this.$axios.$get(url)
+      } else {
+        return ''
+      }
     }
   }
 })
