@@ -2,11 +2,7 @@
   <b-container fluid>
     <b-row>
       <b-col xl="6" lg="12">
-        <b-card header="直播数据解析">
-          <b-card-text>
-            直播数据解析。
-          </b-card-text>
-        </b-card>
+        <LiveCard/>
       </b-col>
       <b-col xl="6" lg="12">
         <ChartCard id="chartCard" ref="chartCard" :charts="charts" />

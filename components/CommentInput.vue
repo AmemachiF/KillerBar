@@ -1,5 +1,5 @@
 <template>
-  <b-container class="py-3">
+  <b-container class="py-3" style="padding: 1.5rem !important;" fluid>
     <b-form>
       <b-row>
         <b-col>
