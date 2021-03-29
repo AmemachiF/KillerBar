@@ -128,7 +128,7 @@ export default Vue.extend({
 <style lang="stylus" scoped>
 #bottom-image {
   left: 0;
-  bottom: 0;
+  bottom: 70px;
 }
 
 .main-sidebar * {

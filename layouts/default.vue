@@ -9,6 +9,7 @@
     </nly-content-wrapper>
     <Footer />
     <nly-overlay v-nly-sidebar-collapse.overlay sidebar />
+    <APlayer />
   </nly-wrapper>
 </template>
 
