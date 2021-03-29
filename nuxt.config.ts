@@ -38,7 +38,8 @@ const config: NuxtConfig = {
     // { src: '~plugins/FontAwesome', mode: 'all' },
     { src: '~plugins/NlyAdminlteVue', mode: 'all' },
     { src: '~plugins/LeanCloud', mode: 'all' },
-    { src: '~plugins/MarkdownItPlugins/styles', mode: 'all' }
+    { src: '~plugins/MarkdownItPlugins/styles', mode: 'all' },
+    { src: '~plugins/APlayer', mode: 'all' }
   ],
 
   router: {
