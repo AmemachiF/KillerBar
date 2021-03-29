@@ -112,7 +112,7 @@ export default Vue.extend({
 
 <style lang="css" scope>
 html {
-  cursor: url('~assets/stareye.png');
+  cursor: url('/dagger_32.ico'), default;
 }
 
 body {
