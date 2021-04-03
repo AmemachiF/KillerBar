@@ -88,8 +88,8 @@
           哔哩哔哩
         </nly-sidebar-nav-item>
       </nly-sidebar-nav>
+      <b-img-lazy id="bottom-image" src="~/assets/stareye.png" class="position-absolute w-100" />
     </nly-sidebar>
-    <b-img-lazy id="bottom-image" src="~/assets/stareye.png" class="position-absolute w-100" />
   </nly-sidebar-container>
 </template>
 
@@ -125,15 +125,26 @@ export default Vue.extend({
 })
 </script>
 
+<style>
+.os-padding {
+  max-height: calc(100vh - 3.5rem - 1px - 65px);
+}
+</style>
+
 <style lang="stylus" scoped>
 #bottom-image {
   left: 0;
-  bottom: 70px;
+  bottom: 0;
+  z-index: -1;
+}
+
+.main-sidebar {
+  background-color: #304156 !important;
+  font-size: 0.98em !important;
 }
 
 .main-sidebar * {
-  background-color: #304156 !important;
-  font-size: 0.98em !important;
+  background-color: #30415655 !important;
 }
 
 .main-sidebar .nav-sidebar .nav-item a {
